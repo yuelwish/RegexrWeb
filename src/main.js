@@ -13,11 +13,55 @@ initTheme();
 renderHeader(document.getElementById('appHeader'));
 
 const doc = document.getElementById('appDoc');
-doc.innerHTML = '<div id="expressionRoot"></div><div id="textRoot"></div><div id="toolsRoot"></div>';
+doc.innerHTML =
+  '<div id="expressionRoot"></div>' +
+  '<div id="textRoot"></div>' +
+  '<div class="resize-handle" id="resizeHandle"></div>' +
+  '<div id="toolsRoot"></div>';
 
 const expr = new ExpressionUI(document.getElementById('expressionRoot'));
 const text = new TextUI(document.getElementById('textRoot'));
 const tools = new ToolsUI(document.getElementById('toolsRoot'));
+
+// 移除 text.js 内创建的多余 resize-handle（已在 doc 层级创建）
+const innerHandle = document.getElementById('textRoot').querySelector('.resize-handle');
+if (innerHandle) innerHandle.remove();
+
+// 拖拽调整 text/tools 高度比例
+const resizeHandle = document.getElementById('resizeHandle');
+let isDragging = false;
+let startY = 0;
+let startTextHeight = 0;
+
+resizeHandle.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  startY = e.clientY;
+  const textSection = document.querySelector('.section.text');
+  startTextHeight = textSection.offsetHeight;
+  resizeHandle.classList.add('dragging');
+  document.body.style.cursor = 'row-resize';
+  document.body.style.userSelect = 'none';
+  e.preventDefault();
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+  const textSection = document.querySelector('.section.text');
+  const docRect = doc.getBoundingClientRect();
+  const exprHeight = document.querySelector('.section.expression').offsetHeight;
+  const available = docRect.height - exprHeight - resizeHandle.offsetHeight;
+  const delta = e.clientY - startY;
+  const newHeight = Math.max(60, Math.min(available - 60, startTextHeight + delta));
+  textSection.style.flex = `0 0 ${newHeight}px`;
+});
+
+document.addEventListener('mouseup', () => {
+  if (!isDragging) return;
+  isDragging = false;
+  resizeHandle.classList.remove('dragging');
+  document.body.style.cursor = '';
+  document.body.style.userSelect = '';
+});
 
 // Expression CodeMirror
 const exprEditor = new EditorView({

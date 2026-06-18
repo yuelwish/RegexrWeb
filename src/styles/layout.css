@@ -55,13 +55,35 @@
   flex: 0 0 auto;
 }
 
-/* Text 区占剩余空间 */
+/* Text 区固定 1/2 高度 */
 .section.text {
-  flex: 1 1 0%;
+  flex: 0 0 50%;
 }
 
-/* Tools 区最多 50% */
+/* 可拖拽分隔条 */
+.resize-handle {
+  flex: 0 0 5px;
+  background: var(--border);
+  cursor: row-resize;
+  position: relative;
+  z-index: 10;
+  transition: background 0.15s;
+}
+.resize-handle:hover,
+.resize-handle.dragging {
+  background: var(--accent);
+}
+
+/* Tools 区占剩余空间，可最小化 */
 .section.tools {
-  flex: 0 0 auto;
-  max-height: 50%;
+  flex: 1 1 0%;
+  min-height: 0;
+  transition: flex 0.2s ease;
+}
+.section.tools.minimized {
+  flex: 0 0 38px;
+  overflow: hidden;
+}
+.section.tools.minimized .section-article {
+  display: none;
 }

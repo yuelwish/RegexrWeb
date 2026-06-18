@@ -23,6 +23,9 @@ export class ToolsUI {
             <li data-tab="replace">Replace</li>
             <li data-tab="details">Details</li>
           </ul>
+          <button class="minimize-btn" id="toolsMinimize" title="最小化/展开">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z" fill="currentColor"/></svg>
+          </button>
         </header>
         <article class="section-article" id="toolsArticle">
           <div class="inputtool" id="toolsInputTool">
@@ -37,10 +40,29 @@ export class ToolsUI {
       </section>
     `;
 
+    // 最小化按钮
+    this.minimizeBtn = this.container.querySelector('#toolsMinimize');
+    this.minimizeBtn.addEventListener('click', () => this.toggleMinimize());
+
     const style = document.createElement('style');
     style.textContent = `
+      .section.tools .section-header h1 {
+        flex: 0 0 auto;
+      }
       .section.tools .segcontrol {
         display: flex; gap: 2px; list-style: none; flex: 1; margin-left: 16px;
+      }
+      .section.tools .minimize-btn {
+        padding: 4px 8px; background: var(--bg-elev);
+        border: 1px solid var(--border); border-radius: 4px;
+        color: var(--text-muted); cursor: pointer; transition: all 0.15s;
+        display: flex; align-items: center;
+      }
+      .section.tools .minimize-btn:hover {
+        background: var(--bg-surface); color: var(--text);
+      }
+      .section.tools.minimized .minimize-btn svg {
+        transform: rotate(180deg);
       }
       .section.tools .segcontrol li {
         padding: 5px 14px; font-size: 12px; font-weight: 500;
@@ -153,6 +175,11 @@ export class ToolsUI {
       li.classList.toggle('selected', li.dataset.tab === tab);
     });
 
+    // 切换 tab 时自动展开（如果已最小化）
+    if (this.container.querySelector('.section.tools').classList.contains('minimized')) {
+      this.toggleMinimize();
+    }
+
     const inputTool = this.container.querySelector('#toolsInputTool');
     const details = this.container.querySelector('#toolsDetails');
 
@@ -173,6 +200,19 @@ export class ToolsUI {
       }
     }
     this.refresh();
+  }
+
+  /**
+   * 最小化/展开切换
+   */
+  toggleMinimize() {
+    const section = this.container.querySelector('.section.tools');
+    section.classList.toggle('minimized');
+    const isMinimized = section.classList.contains('minimized');
+    // 切换箭头方向
+    if (this.minimizeBtn) {
+      this.minimizeBtn.querySelector('svg').style.transform = isMinimized ? 'rotate(180deg)' : '';
+    }
   }
 
   /**

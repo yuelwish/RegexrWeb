@@ -16,21 +16,28 @@ export class TextUI {
     this.container.innerHTML = `
       <section class="section text">
         <header class="section-header">
+          <h1>Text</h1>
+          <div class="result" id="matchResult"><span class="dot"></span>No match</div>
           <ul class="modelist">
             <li class="selected">Text</li>
           </ul>
-          <div class="result" id="matchResult"><span class="dot"></span>No match</div>
         </header>
         <article class="section-article">
           <div class="text-editor-wrap" id="textEditorMount"></div>
         </article>
       </section>
+      <div class="resize-handle" id="resizeHandle"></div>
     `;
 
     const style = document.createElement('style');
     style.textContent = `
+      .section.text .section-header h1 {
+        flex: 0 0 auto;
+        margin-right: auto;
+      }
       .section.text .modelist {
         display: flex; gap: 2px; list-style: none;
+        margin-left: 8px;
       }
       .section.text .modelist li {
         padding: 5px 12px; font-size: 12px; font-weight: 500;
@@ -44,7 +51,7 @@ export class TextUI {
         padding: 5px 12px; font-size: 12px; font-weight: 600;
         background: var(--bg-elev); color: var(--text-muted);
         border: 1px solid var(--border); border-radius: 4px;
-        margin-left: auto; display: flex; align-items: center; gap: 6px;
+        margin-right: 8px; display: flex; align-items: center; gap: 6px;
       }
       .section.text .result.pass {
         background: rgba(158, 206, 106, 0.15); color: var(--green);
