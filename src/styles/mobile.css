@@ -1,0 +1,13 @@
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0 var(--space-md);
+    height: 48px;
+  }
+
+  .section-header {
+    padding: 0 var(--space-md);
+    height: 36px;
+  }
+
+  /* 其余移动端覆盖在后续任务补充 */
+}

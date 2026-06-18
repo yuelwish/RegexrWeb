@@ -1,0 +1,67 @@
+/* 顶部栏 */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-surface);
+  padding: 0 var(--space-lg);
+  height: 52px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+/* 三块主区域 */
+.doc {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  flex: 1 1 0%;
+  min-height: 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-lg);
+  height: 38px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.section-header h1 {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.section-article {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Expression 区固定高度 */
+.section.expression {
+  flex: 0 0 auto;
+}
+
+/* Text 区占剩余空间 */
+.section.text {
+  flex: 1 1 0%;
+}
+
+/* Tools 区最多 50% */
+.section.tools {
+  flex: 0 0 auto;
+  max-height: 50%;
+}
