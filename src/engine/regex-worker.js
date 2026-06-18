@@ -72,9 +72,17 @@ export function solve(pattern, flags, text) {
   return { matches };
 }
 
+/**
+ * 接受 ArrayBuffer（Transferable），避免大文本拷贝开销。
+ */
+export function solveBuffer(buffer, pattern, flags) {
+  const text = new TextDecoder().decode(buffer);
+  return solve(pattern, flags, text);
+}
+
 // Worker 环境时才 expose（Node 测试环境时不执行）
 if (typeof self !== 'undefined' && typeof window === 'undefined' && typeof process === 'undefined') {
   import('comlink').then(({ expose }) => {
-    expose({ solve });
+    expose({ solve, solveBuffer });
   });
 }

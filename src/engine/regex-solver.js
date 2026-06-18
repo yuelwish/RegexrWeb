@@ -1,10 +1,13 @@
-import { wrap } from 'comlink';
+import { wrap, transfer } from 'comlink';
 
 let workerInstance = null;
 let api = null;
 
 // 检测是否在浏览器环境（有 Worker 支持）
 const hasWorkerSupport = typeof Worker !== 'undefined';
+
+// 大文本阈值（>1MB 使用 Transferable）
+const LARGE_TEXT_THRESHOLD = 1_000_000;
 
 /**
  * 懒初始化 Worker（首次调用时才创建）
@@ -40,6 +43,11 @@ export async function solveRegex(pattern, flags, text) {
     }
     // 浏览器环境：通过 Worker
     const remote = await getApi();
+    // 大文本使用 Transferable Objects（零拷贝）
+    if (text.length > LARGE_TEXT_THRESHOLD) {
+      const buffer = new TextEncoder().encode(text).buffer;
+      return await remote.solveBuffer(transfer(buffer, [buffer]), pattern, flags);
+    }
     return await remote.solve(pattern, flags, text);
   } catch (err) {
     return { matches: [], error: { message: err.message } };
