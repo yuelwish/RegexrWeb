@@ -9,5 +9,25 @@
     height: 36px;
   }
 
-  /* 其余移动端覆盖在后续任务补充 */
+  .expression-editor {
+    padding: 8px 12px;
+  }
+  .expression-editor .slash { font-size: 16px; }
+  .expression-editor .cm-content { font-size: 13px; }
+  .flag { font-size: 10px; padding: 3px 5px; min-width: 22px; }
+
+  .section.text .result { font-size: 11px; padding: 4px 8px; }
+  .text-editor-wrap .cm-content { font-size: 12px; }
+
+  .section.tools .segcontrol { margin-left: 8px; }
+  .section.tools .segcontrol li {
+    padding: 4px 8px; font-size: 11px;
+  }
+  .section.tools .inputtool-row { padding: 8px 12px; }
+  .section.tools .inputtool-row .label { min-width: 60px; font-size: 10px; }
+  .section.tools .inputtool-input { font-size: 12px; padding: 5px 8px; }
+  .section.tools .inputtool-result { padding: 8px 12px; font-size: 12px; }
+  .section.tools .details-content { padding: 12px; }
+  .section.tools table { font-size: 11px; }
+  .section.tools td { padding: 4px 8px; }
 }
