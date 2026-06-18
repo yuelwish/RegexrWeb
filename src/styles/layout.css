@@ -54,10 +54,40 @@
 .section.expression {
   flex: 0 0 auto;
 }
+#expressionRoot {
+  flex: 0 0 auto;
+}
 
-/* Text 区固定 1/2 高度 */
-.section.text {
+/* Text 区容器固定 1/2 高度 */
+#textRoot {
   flex: 0 0 50%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+#textRoot > .section.text {
+  flex: 1 1 0%;
+  min-height: 0;
+}
+
+/* Tools 区容器占剩余空间 */
+#toolsRoot {
+  flex: 1 1 0%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+#toolsRoot > .section.tools {
+  flex: 1 1 0%;
+  min-height: 0;
+  transition: flex 0.2s ease;
+}
+#toolsRoot > .section.tools.minimized {
+  flex: 0 0 38px;
+  overflow: hidden;
+}
+#toolsRoot > .section.tools.minimized .section-article {
+  display: none;
 }
 
 /* 可拖拽分隔条 */
@@ -69,21 +99,16 @@
   z-index: 10;
   transition: background 0.15s;
 }
+.resize-handle::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -8px;
+  bottom: -8px;
+  /* 扩大点击区域 */
+}
 .resize-handle:hover,
 .resize-handle.dragging {
   background: var(--accent);
-}
-
-/* Tools 区占剩余空间，可最小化 */
-.section.tools {
-  flex: 1 1 0%;
-  min-height: 0;
-  transition: flex 0.2s ease;
-}
-.section.tools.minimized {
-  flex: 0 0 38px;
-  overflow: hidden;
-}
-.section.tools.minimized .section-article {
-  display: none;
 }

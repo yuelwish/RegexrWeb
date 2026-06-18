@@ -36,8 +36,8 @@ let startTextHeight = 0;
 resizeHandle.addEventListener('mousedown', (e) => {
   isDragging = true;
   startY = e.clientY;
-  const textSection = document.querySelector('.section.text');
-  startTextHeight = textSection.offsetHeight;
+  const textRoot = document.getElementById('textRoot');
+  startTextHeight = textRoot.offsetHeight;
   resizeHandle.classList.add('dragging');
   document.body.style.cursor = 'row-resize';
   document.body.style.userSelect = 'none';
@@ -46,13 +46,14 @@ resizeHandle.addEventListener('mousedown', (e) => {
 
 document.addEventListener('mousemove', (e) => {
   if (!isDragging) return;
-  const textSection = document.querySelector('.section.text');
+  const textRoot = document.getElementById('textRoot');
   const docRect = doc.getBoundingClientRect();
-  const exprHeight = document.querySelector('.section.expression').offsetHeight;
-  const available = docRect.height - exprHeight - resizeHandle.offsetHeight;
+  const exprHeight = document.getElementById('expressionRoot').offsetHeight;
+  const handleHeight = 5;
+  const available = docRect.height - exprHeight - handleHeight;
   const delta = e.clientY - startY;
   const newHeight = Math.max(60, Math.min(available - 60, startTextHeight + delta));
-  textSection.style.flex = `0 0 ${newHeight}px`;
+  textRoot.style.flex = `0 0 ${newHeight}px`;
 });
 
 document.addEventListener('mouseup', () => {
