@@ -103,7 +103,7 @@ export class ExpressionUI {
         flex: 1; min-width: 0; position: relative;
       }
       .expression-input {
-        width: 100%; font-family: var(--font-mono); font-size: 15px; font-weight: 500;
+        width: 100%; font-family: var(--font-mono); font-size: 18px; font-weight: 500;
         background: transparent; color: transparent; border: none;
         outline: none; padding: 2px 4px;
         caret-color: var(--text);
@@ -117,7 +117,7 @@ export class ExpressionUI {
         right: 0;
         top: 2px;
         bottom: 2px;
-        font-family: var(--font-mono); font-size: 15px; font-weight: 500;
+        font-family: var(--font-mono); font-size: 18px; font-weight: 500;
         pointer-events: none;
         padding: 2px 4px; white-space: pre; overflow: hidden;
         display: flex;

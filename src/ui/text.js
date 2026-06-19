@@ -75,7 +75,7 @@ export class TextUI {
       }
       .text-editor-wrap .cm-editor { flex: 1; outline: none !important; }
       .text-editor-wrap .cm-content {
-        font-family: var(--font-mono); font-size: 13px; color: var(--text-dim);
+        font-family: var(--font-mono); font-size: 16px; color: var(--text-dim);
         line-height: 1.6;
       }
       .text-editor-wrap .cm-gutters {

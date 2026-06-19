@@ -1,43 +1,5 @@
 :root {
-  /* 浅色主题（默认，类似 regexr.com 原版） */
-  --bg: #ffffff;
-  --bg-elev: #f6f8fa;
-  --bg-surface: #eef1f5;
-  --border: #d0d7de;
-  --border-subtle: #e7ebf0;
-
-  --text: #1f2328;
-  --text-dim: #444d56;
-  --text-muted: #8b949e;
-  --text-faint: #c0c8d0;
-
-  --accent: #0969da;
-  --accent-dim: #0550ae;
-  --green: #1a7f37;
-  --purple: #8250df;
-  --red: #cf222e;
-  --orange: #bf5700;
-  --yellow: #9a6700;
-  --cyan: #0e7490;
-
-  --radius: 6px;
-  --radius-sm: 4px;
-
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 12px;
-  --space-lg: 16px;
-  --space-xl: 24px;
-
-  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Source Code Pro', Consolas, monospace;
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* 深色主题覆盖 */
-[data-theme='dark'] {
+  /* Tokyo Night 深色主题（默认） */
   --bg: #1a1b26;
   --bg-elev: #1f2335;
   --bg-surface: #24283b;
@@ -58,6 +20,44 @@
   --yellow: #e0af68;
   --cyan: #7dcfff;
 
+  --radius: 6px;
+  --radius-sm: 4px;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Source Code Pro', Consolas, monospace;
+
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* 浅色主题覆盖 */
+[data-theme='light'] {
+  --bg: #ffffff;
+  --bg-elev: #f6f8fa;
+  --bg-surface: #eef1f5;
+  --border: #d0d7de;
+  --border-subtle: #e7ebf0;
+
+  --text: #1f2328;
+  --text-dim: #444d56;
+  --text-muted: #8b949e;
+  --text-faint: #c0c8d0;
+
+  --accent: #0969da;
+  --accent-dim: #0550ae;
+  --green: #1a7f37;
+  --purple: #8250df;
+  --red: #cf222e;
+  --orange: #bf5700;
+  --yellow: #9a6700;
+  --cyan: #0e7490;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
 }

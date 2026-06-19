@@ -97,7 +97,7 @@ export class ToolsUI {
       .section.tools .inputtool-input:focus { border-color: var(--accent); }
       .section.tools .inputtool-result {
         flex: 1; padding: 12px 16px; font-family: var(--font-mono);
-        font-size: 13px; color: var(--text-dim); line-height: 1.7;
+        font-size: 15px; color: var(--text-dim); line-height: 1.7;
         overflow-y: auto; white-space: pre-wrap; user-select: text;
         outline: none; cursor: text;
       }
