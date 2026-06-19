@@ -2,8 +2,6 @@ import { initTheme } from './utils/theme.js';
 import { renderHeader } from './ui/header.js';
 import { ExpressionUI } from './ui/expression.js';
 import { TextUI } from './ui/text.js';
-import { EditorView, basicSetup } from 'codemirror';
-import { EditorState } from '@codemirror/state';
 import { solveRegex } from './engine/regex-solver.js';
 import { debounce } from './utils/debounce.js';
 import { ToolsUI } from './ui/tools.js';
@@ -63,25 +61,6 @@ document.addEventListener('mouseup', () => {
   document.body.style.cursor = '';
   document.body.style.userSelect = '';
 });
-
-// Expression CodeMirror
-const exprEditor = new EditorView({
-  state: EditorState.create({
-    doc: '',
-    extensions: [
-      basicSetup,
-      EditorView.updateListener.of((update) => {
-        if (update.docChanged) {
-          expr.setPattern(update.state.doc.toString());
-          expr.emit();
-        }
-      }),
-    ],
-  }),
-  parent: document.getElementById('expressionMount'),
-});
-
-expr.mountEditor(exprEditor);
 
 // 触发匹配
 const runMatch = debounce(async () => {
