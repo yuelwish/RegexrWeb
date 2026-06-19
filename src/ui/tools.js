@@ -218,8 +218,9 @@ export class ToolsUI {
   /**
    * 外部设置匹配结果
    */
-  setMatches(matches) {
+  setMatches(matches, sourceText) {
     this.matches = matches;
+    this._sourceText = sourceText || '';
     if (this.selectedMatchIndex >= matches.length) {
       this.selectedMatchIndex = 0;
     }
@@ -294,12 +295,12 @@ export class ToolsUI {
         <table>${rows}</table>
       `;
     } else if (this.activeTab === 'extract') {
-      const lines = this.matches.map((m) => applyTemplate(this.extractTemplate, m));
+      const lines = this.matches.map((m) => applyTemplate(this.extractTemplate, { ...m, text: this._sourceText }));
       result.textContent = lines.join('\n');
     } else if (this.activeTab === 'replace') {
       // 替换全文（需要原文，由 main.js 注入）
       if (this.onReplacePreview) {
-        result.textContent = this.onReplacePreview(this.replaceTemplate, this.matches);
+        result.textContent = this.onReplacePreview(this.replaceTemplate, this.matches, this._sourceText);
       }
     }
   }

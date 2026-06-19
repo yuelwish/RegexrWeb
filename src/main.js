@@ -80,7 +80,7 @@ const runMatch = debounce(async () => {
   } else {
     expr.setError(null);
     text.setMatches(result.matches);
-    tools.setMatches(result.matches);
+    tools.setMatches(result.matches, body);
   }
 }, 300);
 
@@ -88,12 +88,12 @@ expr.onChange(runMatch);
 text.onChange(runMatch);
 
 // 替换预览回调
-tools.setReplacePreview((template, matches) => {
-  let result = text.getText();
+tools.setReplacePreview((template, matches, sourceText) => {
+  let result = sourceText || text.getText();
   // 从后往前替换，避免 index 偏移
   const sorted = [...matches].sort((a, b) => b.index - a.index);
   for (const m of sorted) {
-    const replaced = applyTemplate(template, m);
+    const replaced = applyTemplate(template, { ...m, text: sourceText || text.getText() });
     result = result.slice(0, m.index) + replaced + result.slice(m.index + m.length);
   }
   return result;

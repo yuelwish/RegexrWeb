@@ -2,14 +2,16 @@
  * 将模板字符串中的占位符替换为 match 的实际值。
  *
  * 支持的占位符：
- *   $0        - 完整匹配
+ *   $0, $&    - 完整匹配
  *   $1, $2... - 数字捕获组
  *   ${name}   - 命名捕获组
+ *   $`        - 匹配前的文本
+ *   $'        - 匹配后的文本
  *   \n        - 换行符
  *   \t        - Tab
  *
  * @param {string} template - 模板字符串
- * @param {{ full: string, groups: Array<{index:number,value:string}>, namedGroups: Object }} match
+ * @param {{ full: string, groups: Array<{index:number,value:string}>, namedGroups: Object, text?: string }} match
  * @returns {string}
  */
 export function applyTemplate(template, match) {
@@ -26,8 +28,17 @@ export function applyTemplate(template, match) {
     return v !== undefined ? v : '';
   });
 
-  // 替换 $0（完整匹配）在数字捕获组之前处理
-  t = t.replace(/\$0\b/g, () => match.full);
+  // 替换 $& 和 $0（完整匹配）
+  t = t.replace(/\$&/g, match.full);
+  t = t.replace(/\$0\b/g, match.full);
+
+  // 替换 $` （匹配前的文本）和 $'（匹配后的文本）
+  if (match.text !== undefined) {
+    const before = match.text.slice(0, match.groups[0]?.index ?? 0);
+    const after = match.text.slice((match.groups[0]?.index ?? 0) + match.full.length);
+    t = t.replace(/\$`/g, before);
+    t = t.replace(/\$'/g, after);
+  }
 
   // 替换数字捕获组 $N（贪婪匹配多位数字，避免 $10 被解析为 $1 + "0"）
   t = t.replace(/\$(\d+)/g, (_, numStr) => {

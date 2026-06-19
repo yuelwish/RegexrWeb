@@ -59,4 +59,31 @@ describe('applyTemplate', () => {
     const m = makeMatch('x');
     expect(applyTemplate('', m)).toBe('');
   });
+
+  it('替换 $& 为完整匹配（JavaScript 标准写法）', () => {
+    const m = makeMatch('hello world');
+    expect(applyTemplate('[$&]', m)).toBe('[hello world]');
+  });
+
+  it('$& 和 $0 效果相同', () => {
+    const m = makeMatch('test');
+    expect(applyTemplate('$&', m)).toBe(applyTemplate('$0', m));
+  });
+
+  it('替换 $` 为匹配前的文本', () => {
+    const m = makeMatch('world', [], {});
+    m.text = 'hello world!';
+    // $0 的 index 默认是 0（makeMatch 不设置 index），需要手动设置
+    m.groups = [{ index: 6, value: 'world' }];
+    m.full = 'world';
+    expect(applyTemplate('before=[$`]', m)).toBe('before=[hello ]');
+  });
+
+  it("替换 $' 为匹配后的文本", () => {
+    const m = makeMatch('world', [], {});
+    m.text = 'hello world!';
+    m.groups = [{ index: 6, value: 'world' }];
+    m.full = 'world';
+    expect(applyTemplate("after=[$']", m)).toBe('after=[!]');
+  });
 });
