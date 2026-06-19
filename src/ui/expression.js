@@ -50,16 +50,18 @@ export class ExpressionUI {
         </header>
         <div class="expression-bar">
           <span class="slash">/</span>
-          <input
-            class="expression-input"
-            id="expressionInput"
-            type="text"
-            placeholder="输入正则表达式..."
-            spellcheck="false"
-            autocomplete="off"
-          />
+          <div class="expression-input-wrap">
+            <input
+              class="expression-input"
+              id="expressionInput"
+              type="text"
+              placeholder="输入正则表达式..."
+              spellcheck="false"
+              autocomplete="off"
+            />
+            <div class="expression-hl" id="expressionHl"></div>
+          </div>
           <span class="slash">/</span>
-          <div class="expression-hl" id="expressionHl"></div>
         </div>
         <div class="expression-error" id="expressionError"></div>
       </section>
@@ -92,29 +94,34 @@ export class ExpressionUI {
         display: flex; align-items: center; gap: 4px;
         padding: 10px 16px; background: var(--bg);
         border-bottom: 1px solid var(--border); min-height: 44px;
-        position: relative;
       }
       .expression-bar .slash {
         color: var(--accent); font-family: var(--font-mono);
         font-size: 18px; font-weight: 700; flex-shrink: 0;
       }
+      .expression-input-wrap {
+        flex: 1; min-width: 0; position: relative;
+      }
       .expression-input {
-        flex: 1; font-family: var(--font-mono); font-size: 15px; font-weight: 500;
-        background: transparent; color: var(--text); border: none;
-        outline: none; min-width: 0; padding: 2px 4px;
+        width: 100%; font-family: var(--font-mono); font-size: 15px; font-weight: 500;
+        background: transparent; color: transparent; border: none;
+        outline: none; padding: 2px 4px;
+        caret-color: var(--text);
       }
       .expression-input::placeholder { color: var(--text-faint); }
 
       /* Syntax highlight overlay */
       .expression-hl {
         position: absolute;
-        left: 24px; /* slash width + gap */
-        right: 24px;
-        top: 10px;
-        bottom: 10px;
+        left: 0;
+        right: 0;
+        top: 2px;
+        bottom: 2px;
         font-family: var(--font-mono); font-size: 15px; font-weight: 500;
-        color: transparent; pointer-events: none;
+        pointer-events: none;
         padding: 2px 4px; white-space: pre; overflow: hidden;
+        display: flex;
+        align-items: center;
       }
 
       /* Token colors */
