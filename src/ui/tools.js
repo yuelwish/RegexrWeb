@@ -99,9 +99,17 @@ export class ToolsUI {
         flex: 1; padding: 12px 16px; font-family: var(--font-mono);
         font-size: 13px; color: var(--text-dim); line-height: 1.7;
         overflow-y: auto; white-space: pre-wrap; user-select: text;
+        outline: none; cursor: text;
+      }
+      .section.tools .inputtool-result:focus {
+        background: var(--bg-elev);
       }
       .section.tools .details-content {
         flex: 1; overflow-y: auto; padding: 16px; user-select: text;
+        outline: none; cursor: text;
+      }
+      .section.tools .details-content:focus {
+        background: var(--bg-elev);
       }
       .section.tools .details-content.hide { display: none; }
       .section.tools .details-desc {
@@ -163,6 +171,24 @@ export class ToolsUI {
         this.replaceTemplate = inputField.value;
       }
       this.refresh();
+    });
+
+    // Ctrl+A 全选结果区域
+    const resultEl = this.container.querySelector('#toolsResult');
+    const detailsEl = this.container.querySelector('#toolsDetails');
+    [resultEl, detailsEl].forEach((el) => {
+      if (!el) return;
+      el.setAttribute('tabindex', '0');
+      el.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+          e.preventDefault();
+          const range = document.createRange();
+          range.selectNodeContents(el);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+      });
     });
 
     // 初始化
