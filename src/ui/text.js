@@ -16,6 +16,8 @@ export class TextUI {
     this.matchCount = 0;
     this.listeners = new Set();
     this.decorations = Decoration.none;
+    this.matches = []; // 保存匹配列表用于点击查找
+    this.onMatchClick = null; // 点击匹配时的回调
     this.render();
     this.mountEditor();
   }
@@ -90,6 +92,10 @@ export class TextUI {
       .text-editor-wrap .cm-match:hover {
         background: rgba(122, 162, 247, 0.4);
       }
+      .text-editor-wrap .cm-match-selected {
+        background: rgba(122, 162, 247, 0.5);
+        box-shadow: 0 0 0 2px rgba(122, 162, 247, 0.4);
+      }
       .text-editor-wrap .cm-match.selected {
         background: rgba(122, 162, 247, 0.5);
         box-shadow: 0 0 0 2px rgba(122, 162, 247, 0.4);
@@ -118,6 +124,22 @@ export class TextUI {
               this.emit();
             }
           }),
+          EditorView.domEventHandlers({
+            click: (event, view) => {
+              const pos = view.posAtCoords({ x: event.clientX, y: event.clientY });
+              if (pos === null) return false;
+
+              // 查找点击位置对应的匹配
+              for (let i = 0; i < this.matches.length; i++) {
+                const m = this.matches[i];
+                if (pos >= m.index && pos < m.index + m.length) {
+                  if (this.onMatchClick) this.onMatchClick(i);
+                  return false;
+                }
+              }
+              return false;
+            },
+          }),
         ],
       }),
       parent: this.container.querySelector('#textEditorMount'),
@@ -136,10 +158,37 @@ export class TextUI {
   }
 
   /**
+   * 设置点击匹配时的回调
+   * @param {(index: number) => void} fn
+   */
+  setOnMatchClick(fn) {
+    this.onMatchClick = fn;
+  }
+
+  /**
+   * 高亮指定匹配（添加 selected 类）
+   */
+  setSelectedMatch(index) {
+    if (!this.view || index < 0 || index >= this.matches.length) return;
+
+    const m = this.matches[index];
+    const decos = this.matches.map((match, i) => {
+      const classes = i === index ? 'cm-match cm-match-selected' : 'cm-match';
+      return Decoration.mark({
+        class: classes,
+        attributes: { 'data-idx': String(match.index) },
+      }).range(match.index, match.index + match.length);
+    });
+    this.decorations = Decoration.set(decos, true);
+    this.remountWithDecorations();
+  }
+
+  /**
    * 更新匹配高亮。
    * @param {Array<{index:number,length:number}>} matches
    */
   setMatches(matches) {
+    this.matches = matches; // 保存匹配列表
     this.matchCount = matches.length;
 
     // 构造 Decorations
