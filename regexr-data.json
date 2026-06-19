@@ -1,0 +1,419 @@
+{
+  "nav": {
+    "element": {
+      "tagName": "HEADER",
+      "id": "",
+      "className": "header",
+      "html": "<header class=\"header\"> <svg class=\"icon logo inline\"><use xlink:href=\"#RegExr\"></use></svg> <div class=\"settings\"> <span class=\"name\">Untitled Pattern</span> <svg class=\"icon share\"><use xlink:href=\"#share\"><title>Pattern Settings</title></use></svg> </div>  <ul class=\"file\"> <li class=\"save disabled\"><span class=\"action\">Save</span> <span class=\"savekey\">(ctrl-s)</span></li> <li class=\"new\">New</li> </ul> <ul class=\"etc\"> <li class=\"button theme\"><svg class=\"icon moon inline\"><use xlink:href=\"",
+      "children": [
+        {
+          "tagName": "svg",
+          "id": "",
+          "className": {},
+          "html": "<svg class=\"icon logo inline\"><use xlink:href=\"#RegExr\"></use></svg>",
+          "children": [
+            {
+              "tagName": "use",
+              "id": "",
+              "className": {},
+              "html": "<use xlink:href=\"#RegExr\"></use>",
+              "children": []
+            }
+          ]
+        },
+        {
+          "tagName": "DIV",
+          "id": "",
+          "className": "settings",
+          "html": "<div class=\"settings\"> <span class=\"name\">Untitled Pattern</span> <svg class=\"icon share\"><use xlink:href=\"#share\"><title>Pattern Settings</title></use></svg> </div>",
+          "children": [
+            {
+              "tagName": "SPAN",
+              "id": "",
+              "className": "name",
+              "html": "<span class=\"name\">Untitled Pattern</span>",
+              "children": []
+            },
+            {
+              "tagName": "svg",
+              "id": "",
+              "className": {},
+              "html": "<svg class=\"icon share\"><use xlink:href=\"#share\"><title>Pattern Settings</title></use></svg>",
+              "children": [
+                {
+                  "tagName": "use",
+                  "id": "",
+                  "className": {},
+                  "html": "<use xlink:href=\"#share\"><title>Pattern Settings</title></use>",
+                  "children": [
+                    {
+                      "tagName": "title",
+                      "id": "",
+                      "className": {},
+                      "html": "<title>Pattern Settings</title>",
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "tagName": "UL",
+          "id": "",
+          "className": "file",
+          "html": "<ul class=\"file\"> <li class=\"save disabled\"><span class=\"action\">Save</span> <span class=\"savekey\">(ctrl-s)</span></li> <li class=\"new\">New</li> </ul>",
+          "children": [
+            {
+              "tagName": "LI",
+              "id": "",
+              "className": "save disabled",
+              "html": "<li class=\"save disabled\"><span class=\"action\">Save</span> <span class=\"savekey\">(ctrl-s)</span></li>",
+              "children": [
+                {
+                  "tagName": "SPAN",
+                  "id": "",
+                  "className": "action",
+                  "html": "<span class=\"action\">Save</span>",
+                  "children": []
+                },
+                {
+                  "tagName": "SPAN",
+                  "id": "",
+                  "className": "savekey",
+                  "html": "<span class=\"savekey\">(ctrl-s)</span>",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tagName": "LI",
+              "id": "",
+              "className": "new",
+              "html": "<li class=\"new\">New</li>",
+              "children": []
+            }
+          ]
+        },
+        {
+          "tagName": "UL",
+          "id": "",
+          "className": "etc",
+          "html": "<ul class=\"etc\"> <li class=\"button theme\"><svg class=\"icon moon inline\"><use xlink:href=\"#moon\"><title>Dark UI</title></use></svg></li> <li class=\"by\">by <a href=\"http://gskinner.com\">gskinner</a></li> <li class=\"github\"><a href=\"https://github.com/gskinner/regexr/\">GitHub</a></li> <li class=\"signin\"><a> <svg class=\"icon user inline\"><use xlink:href=\"#user\"></use></svg> <span class=\"label\">Sign In</span> </a></li> </ul>",
+          "children": [
+            {
+              "tagName": "LI",
+              "id": "",
+              "className": "button theme",
+              "html": "<li class=\"button theme\"><svg class=\"icon moon inline\"><use xlink:href=\"#moon\"><title>Dark UI</title></use></svg></li>",
+              "children": [
+                {
+                  "tagName": "svg",
+                  "id": "",
+                  "className": {},
+                  "html": "<svg class=\"icon moon inline\"><use xlink:href=\"#moon\"><title>Dark UI</title></use></svg>",
+                  "children": [
+                    {
+                      "tagName": "use",
+                      "id": "",
+                      "className": {},
+                      "html": "<use xlink:href=\"#moon\"><title>Dark UI</title></use>",
+                      "children": [
+                        {
+                          "tagName": "title",
+                          "id": "",
+                          "className": {},
+                          "html": "<title>Dark UI</title>",
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tagName": "LI",
+              "id": "",
+              "className": "by",
+              "html": "<li class=\"by\">by <a href=\"http://gskinner.com\">gskinner</a></li>",
+              "children": [
+                {
+                  "tagName": "A",
+                  "id": "",
+                  "className": "",
+                  "html": "<a href=\"http://gskinner.com\">gskinner</a>",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tagName": "LI",
+              "id": "",
+              "className": "github",
+              "html": "<li class=\"github\"><a href=\"https://github.com/gskinner/regexr/\">GitHub</a></li>",
+              "children": [
+                {
+                  "tagName": "A",
+                  "id": "",
+                  "className": "",
+                  "html": "<a href=\"https://github.com/gskinner/regexr/\">GitHub</a>",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "tagName": "LI",
+              "id": "",
+              "className": "signin",
+              "html": "<li class=\"signin\"><a> <svg class=\"icon user inline\"><use xlink:href=\"#user\"></use></svg> <span class=\"label\">Sign In</span> </a></li>",
+              "children": [
+                {
+                  "tagName": "A",
+                  "id": "",
+                  "className": "",
+                  "html": "<a> <svg class=\"icon user inline\"><use xlink:href=\"#user\"></use></svg> <span class=\"label\">Sign In</span> </a>",
+                  "children": [
+                    {
+                      "tagName": "svg",
+                      "id": "",
+                      "className": {},
+                      "html": "<svg class=\"icon user inline\"><use xlink:href=\"#user\"></use></svg>",
+                      "children": [
+                        {
+                          "tagName": "use",
+                          "id": "",
+                          "className": {},
+                          "html": "<use xlink:href=\"#user\"></use>",
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "tagName": "SPAN",
+                      "id": "",
+                      "className": "label",
+                      "html": "<span class=\"label\">Sign In</span>",
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "style": {
+      "backgroundColor": "rgb(16, 17, 18)",
+      "color": "rgb(240, 241, 242)",
+      "fontFamily": "\"Roboto Condensed\", sans-serif",
+      "fontSize": "16px",
+      "height": "54px",
+      "width": "1368px",
+      "padding": "0px 16px",
+      "margin": "0px",
+      "border": {
+        "color": "rgb(240, 241, 242)",
+        "width": "0px",
+        "radius": "0px"
+      },
+      "display": "flex",
+      "position": "static"
+    },
+    "menuItems": []
+  },
+  "regexEditor": {
+    "element": {
+      "tagName": "DIV",
+      "id": "",
+      "className": "CodeMirror cm-s-default CodeMirror-focused",
+      "html": "<div class=\"CodeMirror cm-s-default CodeMirror-focused\" style=\"width: 100%; height: 100%;\"><div style=\"overflow: hidden; position: relative; width: 3px; height: 0px; top: 20px; left: 125.688px;\"><textarea autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\" style=\"position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;\" tabindex=\"0\"></textarea></div><div class=\"CodeMirror-vscrollbar\" cm-not-content=\"true\" style=\"width: 18px; pointer-events: none;\"><div sty",
+      "children": [
+        {
+          "tagName": "DIV",
+          "id": "",
+          "className": "",
+          "html": "<div style=\"overflow: hidden; position: relative; width: 3px; height: 0px; top: 20px; left: 125.688px;\"><textarea autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\" style=\"position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;\" tabindex=\"0\"></textarea></div>",
+          "children": [
+            {
+              "tagName": "TEXTAREA",
+              "id": "",
+              "className": "",
+              "html": "<textarea autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\" style=\"position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;\" tabindex=\"0\"></textarea>",
+              "children": []
+            }
+          ]
+        },
+        {
+          "tagName": "DIV",
+          "id": "",
+          "className": "CodeMirror-vscrollbar",
+          "html": "<div class=\"CodeMirror-vscrollbar\" cm-not-content=\"true\" style=\"width: 18px; pointer-events: none;\"><div style=\"min-width: 1px; height: 0px;\"></div></div>",
+          "children": [
+            {
+              "tagName": "DIV",
+              "id": "",
+              "className": "",
+              "html": "<div style=\"min-width: 1px; height: 0px;\"></div>",
+              "children": []
+            }
+          ]
+        },
+        {
+          "tagName": "DIV",
+          "id": "",
+          "className": "CodeMirror-hscrollbar",
+          "html": "<div class=\"CodeMirror-hscrollbar\" cm-not-content=\"true\" style=\"height: 18px; pointer-events: none;\"><div style=\"height: 100%; min-height: 1px; width: 0px;\"></div></div>",
+          "children": [
+            {
+              "tagName": "DIV",
+              "id": "",
+              "className": "",
+              "html": "<div style=\"height: 100%; min-height: 1px; width: 0px;\"></div>",
+              "children": []
+            }
+          ]
+        },
+        {
+          "tagName": "DIV",
+          "id": "",
+          "className": "CodeMirror-scrollbar-filler",
+          "html": "<div class=\"CodeMirror-scrollbar-filler\" cm-not-content=\"true\"></div>",
+          "children": []
+        },
+        {
+          "tagName": "DIV",
+          "id": "",
+          "className": "CodeMirror-gutter-filler",
+          "html": "<div class=\"CodeMirror-gutter-filler\" cm-not-content=\"true\"></div>",
+          "children": []
+        }
+      ]
+    },
+    "style": {
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "color": "rgb(0, 0, 0)",
+      "fontFamily": "\"Source Code Pro\", monospace",
+      "fontSize": "16px",
+      "height": "60px",
+      "width": "1021.33px",
+      "padding": "16px 0px 0px 16px",
+      "margin": "0px",
+      "border": {
+        "color": "rgb(0, 0, 0)",
+        "width": "0px",
+        "radius": "0px"
+      },
+      "display": "block",
+      "position": "absolute"
+    },
+    "gutter": {
+      "element": null,
+      "style": null
+    },
+    "lineStyle": {
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "color": "rgb(0, 0, 0)",
+      "fontFamily": "\"Source Code Pro\", monospace",
+      "fontSize": "16px",
+      "height": "20px",
+      "width": "997.328px",
+      "padding": "0px 4px",
+      "margin": "0px",
+      "border": {
+        "color": "rgb(0, 0, 0)",
+        "width": "0px",
+        "radius": "0px"
+      },
+      "display": "block",
+      "position": "relative"
+    },
+    "matchHighlight": null
+  },
+  "flags": {
+    "element": {
+      "tagName": "DIV",
+      "id": "",
+      "className": "button flags",
+      "html": "<div class=\"button flags\"> <svg class=\"icon\"><use xlink:href=\"#flags\"></use></svg> <span class=\"label\">Flags</span> <svg class=\"icon dropdown\"><use xlink:href=\"#dropdown\"></use></svg> </div>",
+      "children": [
+        {
+          "tagName": "svg",
+          "id": "",
+          "className": {},
+          "html": "<svg class=\"icon\"><use xlink:href=\"#flags\"></use></svg>",
+          "children": [
+            {
+              "tagName": "use",
+              "id": "",
+              "className": {},
+              "html": "<use xlink:href=\"#flags\"></use>",
+              "children": []
+            }
+          ]
+        },
+        {
+          "tagName": "SPAN",
+          "id": "",
+          "className": "label",
+          "html": "<span class=\"label\">Flags</span>",
+          "children": []
+        },
+        {
+          "tagName": "svg",
+          "id": "",
+          "className": {},
+          "html": "<svg class=\"icon dropdown\"><use xlink:href=\"#dropdown\"></use></svg>",
+          "children": [
+            {
+              "tagName": "use",
+              "id": "",
+              "className": {},
+              "html": "<use xlink:href=\"#dropdown\"></use>",
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    "style": {
+      "backgroundColor": "rgba(240, 241, 242, 0.35)",
+      "color": "rgb(38, 41, 43)",
+      "fontFamily": "\"Roboto Condensed\", sans-serif",
+      "fontSize": "14px",
+      "height": "16.2969px",
+      "width": "60.8906px",
+      "padding": "6px 12px",
+      "margin": "0px 0px 0px 4px",
+      "border": {
+        "color": "rgb(38, 41, 43)",
+        "width": "0px",
+        "radius": "2px"
+      },
+      "display": "block",
+      "position": "static"
+    },
+    "buttons": []
+  },
+  "rightPanel": {
+    "element": null,
+    "style": null
+  },
+  "tabs": {
+    "element": null,
+    "style": null,
+    "items": [],
+    "contents": []
+  },
+  "detailsTab": {
+    "contentHTML": null,
+    "matchStyle": null,
+    "groupStyle": null
+  },
+  "statusBar": {
+    "element": null,
+    "style": null
+  }
+}

@@ -70,7 +70,7 @@ export class ExpressionUI {
     style.textContent = `
       .section.expression .section-header h1 { color: var(--accent); }
       .section.expression .section-header {
-        background: linear-gradient(180deg, #292e42 0%, #1f2335 100%);
+        background: var(--bg-surface);
       }
 
       /* Flags */
