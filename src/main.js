@@ -88,7 +88,10 @@ expr.onChange(runMatch);
 text.onChange(runMatch);
 
 // 初始匹配（默认正则）
-runMatch();
+setTimeout(() => {
+  console.log('[init] text length:', text.getText().length);
+  runMatch();
+}, 100);
 
 // 替换预览回调
 tools.setReplacePreview((template, matches, sourceText) => {
