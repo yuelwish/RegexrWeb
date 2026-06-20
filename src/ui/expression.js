@@ -24,10 +24,14 @@ const TOKEN_RULES = [
 export class ExpressionUI {
   constructor(container) {
     this.container = container;
-    this.pattern = '';
+    this.pattern = '([A-Z])\\w+';
     this.flags = new Set(['g']);
     this.listeners = new Set();
     this.render();
+    // 设置初始值
+    const input = this.container.querySelector('#expressionInput');
+    if (input) input.value = this.pattern;
+    this.renderHighlight();
   }
 
   render() {
