@@ -49,6 +49,10 @@ export class ToolsUI {
       .section.tools .section-header h1 {
         flex: 0 0 auto;
       }
+      .section.tools .section-header {
+        display: flex;
+        align-items: center;
+      }
       .section.tools .segcontrol {
         display: flex; gap: 2px; list-style: none; margin-left: auto;
       }
