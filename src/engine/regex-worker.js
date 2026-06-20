@@ -28,6 +28,20 @@ export function solve(pattern, flags, text) {
 
   try {
     while ((m = re.exec(text)) !== null) {
+      const matchLength = m[0].length;
+      
+      // 处理空匹配：跳过当前字符，避免无限循环
+      if (matchLength === 0) {
+        // 如果当前字符是换行符，跳过它（因为 . 不匹配换行）
+        if (text[re.lastIndex] === '\n') {
+          re.lastIndex++;
+        } else {
+          re.lastIndex++;
+        }
+        // 空匹配不添加到结果中
+        continue;
+      }
+      
       // 防空匹配死循环：零宽匹配时推进 lastIndex
       if (re.lastIndex === m.index) {
         re.lastIndex++;
@@ -54,7 +68,7 @@ export function solve(pattern, flags, text) {
 
       matches.push({
         index: m.index,
-        length: m[0].length,
+        length: matchLength,
         full: m[0],
         groups,
         namedGroups: m.groups ?? {},
