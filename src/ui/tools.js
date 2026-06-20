@@ -235,6 +235,13 @@ export class ToolsUI {
     const section = this.container.querySelector('.section.tools');
     section.classList.toggle('minimized');
     const isMinimized = section.classList.contains('minimized');
+
+    // 最小化时，内容区域放大
+    const textRoot = document.getElementById('textRoot');
+    if (textRoot) {
+      textRoot.style.flex = isMinimized ? '1 1 0%' : '0 0 50%';
+    }
+
     // 切换箭头方向
     if (this.minimizeBtn) {
       this.minimizeBtn.querySelector('svg').style.transform = isMinimized ? 'rotate(180deg)' : '';
