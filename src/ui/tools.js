@@ -8,7 +8,7 @@ export class ToolsUI {
     this.matches = [];
     this.selectedMatchIndex = 0;
     this.extractTemplate = '$&';
-    this.replaceTemplate = '[IMG:$1]';
+    this.replaceTemplate = '<< $& >>';
     this.listeners = new Set();
     this.render();
   }
