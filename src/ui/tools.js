@@ -62,6 +62,7 @@ export class ToolsUI {
         border: 1px solid var(--border); border-radius: 4px;
         cursor: pointer; transition: all 0.15s;
         display: flex; align-items: center;
+        margin-left: 8px;
       }
       .section.tools .minimize-btn:hover {
         background: var(--bg-surface); color: var(--text);
