@@ -29,6 +29,7 @@ export function applyTemplate(template, match) {
   });
 
   // 替换 $& 和 $0（完整匹配）
+  // 注意：$0\b 确保 $01 不会被 $0 替换（让 $N 处理）
   t = t.replace(/\$&/g, match.full);
   t = t.replace(/\$0\b/g, match.full);
 

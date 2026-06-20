@@ -9,11 +9,11 @@
     height: 36px;
   }
 
-  .expression-editor {
+  .expression-bar {
     padding: 8px 12px;
   }
-  .expression-editor .slash { font-size: 16px; }
-  .expression-editor .cm-content { font-size: 13px; }
+  .expression-bar .slash { font-size: 16px; }
+  .expression-input { font-size: 13px; }
   .flag { font-size: 10px; padding: 3px 5px; min-width: 22px; }
 
   .section.text .result { font-size: 11px; padding: 4px 8px; }

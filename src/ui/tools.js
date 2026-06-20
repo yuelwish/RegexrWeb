@@ -1,4 +1,5 @@
 import { applyTemplate } from '../engine/template-parser.js';
+import { escapeHtml } from '../utils/escape.js';
 
 export class ToolsUI {
   constructor(container) {
@@ -244,10 +245,4 @@ export class ToolsUI {
   }
 }
 
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
+

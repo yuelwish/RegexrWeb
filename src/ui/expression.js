@@ -55,50 +55,50 @@ export class ExpressionUI {
           </div>
         </header>
         <div class="expression-bar">
-          <span class="slash">/</span>
-          <div class="expression-input-wrap">
-            <input
-              class="expression-input"
-              id="expressionInput"
-              type="text"
-              placeholder="输入正则表达式..."
-              spellcheck="false"
-              autocomplete="off"
-            />
-            <div class="expression-hl" id="expressionHl"></div>
-          </div>
-          <span class="slash">/</span>
+        <span class="slash">/</span>
+        <div class="expression-input-wrap">
+          <input
+            class="expression-input"
+            id="expressionInput"
+            type="text"
+            placeholder="输入正则表达式..."
+            spellcheck="false"
+            autocomplete="off"
+          />
+          <div class="expression-hl" id="expressionHl"></div>
         </div>
-        <div class="expression-error" id="expressionError"></div>
-      </section>
-    `;
+        <span class="slash">/</span>
+      </div>
+      <div class="expression-error" id="expressionError"></div>
+    </section>
+  `;
 
-    // 输入事件
-    const input = this.container.querySelector('#expressionInput');
-    const hl = this.container.querySelector('#expressionHl');
+  // 输入事件
+  const input = this.container.querySelector('#expressionInput');
+  const hl = this.container.querySelector('#expressionHl');
 
-    input.addEventListener('input', () => {
-      this.pattern = input.value;
-      this.renderHighlight();
+  input.addEventListener('input', () => {
+    this.pattern = input.value;
+    this.renderHighlight();
+    this.emit();
+  });
+
+  input.addEventListener('keydown', (e) => {
+    // 让箭头键和退格正常工作
+    if (e.key === 'Enter') e.preventDefault();
+  });
+
+  // Flag 切换
+  this.container.querySelectorAll('.flag').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.flag;
+      if (this.flags.has(key)) this.flags.delete(key);
+      else this.flags.add(key);
+      btn.classList.toggle('on');
       this.emit();
     });
-
-    input.addEventListener('keydown', (e) => {
-      // 让箭头键和退格正常工作
-      if (e.key === 'Enter') e.preventDefault();
-    });
-
-    // Flag 切换
-    this.container.querySelectorAll('.flag').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const key = btn.dataset.flag;
-        if (this.flags.has(key)) this.flags.delete(key);
-        else this.flags.add(key);
-        btn.classList.toggle('on');
-        this.emit();
-      });
-    });
-  }
+  });
+}
 
   /**
    * 简单正则语法高亮
@@ -255,10 +255,4 @@ export class ExpressionUI {
   }
 }
 
-function escapeHtml(s) {
-  return s
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
+import { escapeHtml } from '../utils/escape.js';
