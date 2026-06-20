@@ -67,6 +67,7 @@ const runMatch = debounce(async () => {
   const pattern = expr.getPattern();
   const flags = expr.getFlagsString();
   const body = text.getText();
+  console.log('[runMatch] pattern:', pattern, 'flags:', flags, 'body:', body.length);
 
   if (!pattern) {
     expr.setError(null);
@@ -75,6 +76,7 @@ const runMatch = debounce(async () => {
   }
 
   const result = await solveRegex(pattern, flags, body);
+  console.log('[runMatch] result matches:', result.matches.length, 'error:', result.error);
   if (result.error && !result.error.warning) {
     expr.setError(result.error.message);
   } else {
