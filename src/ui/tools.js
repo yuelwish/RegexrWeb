@@ -57,9 +57,10 @@ export class ToolsUI {
         display: flex; gap: 2px; list-style: none; margin-left: auto;
       }
       .section.tools .minimize-btn {
-        padding: 4px 8px; background: var(--bg-elev);
+        padding: 5px 14px; font-size: 12px; font-weight: 500;
+        background: var(--bg-elev); color: var(--text-muted);
         border: 1px solid var(--border); border-radius: 4px;
-        color: var(--text-muted); cursor: pointer; transition: all 0.15s;
+        cursor: pointer; transition: all 0.15s;
         display: flex; align-items: center;
       }
       .section.tools .minimize-btn:hover {
