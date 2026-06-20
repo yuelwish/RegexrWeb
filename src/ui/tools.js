@@ -89,7 +89,7 @@ export class ToolsUI {
         text-transform: uppercase; letter-spacing: 0.06em; min-width: 80px;
       }
       .section.tools .inputtool-input {
-        flex: 1; font-family: var(--font-mono); font-size: 14px; font-weight: 500;
+        flex: 1; font-family: var(--font-mono); font-size: 16px; font-weight: 500;
         padding: 6px 10px; background: var(--bg-elev);
         border: 1px solid var(--border); border-radius: 4px;
         color: var(--text); outline: none; transition: border-color 0.15s;
@@ -97,7 +97,7 @@ export class ToolsUI {
       .section.tools .inputtool-input:focus { border-color: var(--accent); }
       .section.tools .inputtool-result {
         flex: 1; padding: 12px 16px; font-family: var(--font-mono);
-        font-size: 15px; color: var(--text-dim); line-height: 1.7;
+        font-size: 16px; color: var(--text-dim); line-height: 1.7;
         overflow-y: auto; white-space: pre-wrap; user-select: text;
         outline: none; cursor: text;
       }
@@ -124,7 +124,7 @@ export class ToolsUI {
       }
       .section.tools .match-hint b { color: var(--orange); }
       .section.tools table {
-        font-family: var(--font-mono); font-size: 12px; width: 100%;
+        font-family: var(--font-mono); font-size: 16px; width: 100%;
         border-collapse: separate; border-spacing: 0;
         border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
       }
