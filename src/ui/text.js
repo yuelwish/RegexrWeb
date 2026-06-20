@@ -1,5 +1,6 @@
-import { EditorView, basicSetup, Decoration } from 'codemirror';
+import { EditorView, basicSetup } from 'codemirror';
 import { EditorState, StateField, StateEffect } from '@codemirror/state';
+import { Decoration } from '@codemirror/view';
 
 const SAMPLE_TEXT = `RegExr was created by gskinner.com.
 
