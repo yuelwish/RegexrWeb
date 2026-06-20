@@ -28,10 +28,12 @@ export class ExpressionUI {
     this.flags = new Set(['g']);
     this.listeners = new Set();
     this.render();
-    // 设置初始值
+    // 设置初始值并触发匹配
     const input = this.container.querySelector('#expressionInput');
     if (input) input.value = this.pattern;
     this.renderHighlight();
+    // 延迟触发，确保 listeners 已绑定
+    setTimeout(() => this.emit(), 0);
   }
 
   render() {
