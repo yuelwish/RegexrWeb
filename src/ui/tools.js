@@ -7,7 +7,7 @@ export class ToolsUI {
     this.activeTab = 'match';
     this.matches = [];
     this.selectedMatchIndex = 0;
-    this.extractTemplate = '$1 - $0';
+    this.extractTemplate = '$&';
     this.replaceTemplate = '[IMG:$1]';
     this.listeners = new Set();
     this.render();
