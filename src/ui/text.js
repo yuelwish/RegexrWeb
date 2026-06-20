@@ -1,6 +1,6 @@
 import { EditorView, basicSetup } from 'codemirror';
-import { EditorState, StateField, StateEffect } from '@codemirror/state';
-import { Decoration } from '@codemirror/view';
+import { EditorState } from '@codemirror/state';
+import { Decoration, ViewPlugin, ViewUpdate } from '@codemirror/view';
 
 const SAMPLE_TEXT = `RegExr was created by gskinner.com.
 
@@ -10,24 +10,6 @@ The side bar includes a Cheatsheet, full Reference, and Help. You can also Save 
 
 Explore results with the Tools below. Replace & List output custom results. Details lists capture groups. Explain describes your expression in plain English.`;
 
-// StateEffect 用于更新 decorations
-const updateDecorations = StateEffect.define();
-
-// StateField 存储当前 decorations
-const decorationField = StateField.define({
-  create() {
-    return Decoration.none;
-  },
-  update(value, tr) {
-    for (const effect of tr.effects) {
-      if (effect.is(updateDecorations)) {
-        return effect.value;
-      }
-    }
-    return value;
-  },
-});
-
 export class TextUI {
   constructor(container) {
     this.container = container;
@@ -36,6 +18,7 @@ export class TextUI {
     this.matches = [];
     this.onMatchClick = null;
     this.selectedMatchIndex = -1;
+    this.decorations = Decoration.none;
     this.render();
     this.mountEditor();
   }
@@ -60,13 +43,27 @@ export class TextUI {
   mountEditor() {
     const self = this;
 
+    const matchHighlighter = ViewPlugin.define(
+      (view) => ({
+        decorations: self.decorations,
+        update(update) {
+          if (update.docChanged || self.decorationsChanged) {
+            this.decorations = self.decorations;
+            self.decorationsChanged = false;
+          }
+        },
+      }),
+      {
+        decorations: (v) => v.decorations,
+      }
+    );
+
     this.view = new EditorView({
       state: EditorState.create({
         doc: SAMPLE_TEXT,
         extensions: [
           basicSetup,
-          decorationField,
-          EditorView.decorations.of((state) => state.field(decorationField)),
+          matchHighlighter,
           EditorView.updateListener.of((update) => {
             if (update.docChanged) {
               this.emit();
@@ -108,9 +105,6 @@ export class TextUI {
     this.onMatchClick = fn;
   }
 
-  /**
-   * 选择指定匹配（高亮 + 回调）
-   */
   selectMatch(index) {
     if (index < 0 || index >= this.matches.length) return;
     this.selectedMatchIndex = index;
@@ -118,9 +112,6 @@ export class TextUI {
     if (this.onMatchClick) this.onMatchClick(index);
   }
 
-  /**
-   * 更新匹配高亮（不重建编辑器）
-   */
   setMatches(matches) {
     this.matches = matches;
     this.matchCount = matches.length;
@@ -129,12 +120,7 @@ export class TextUI {
     this.updateResult();
   }
 
-  /**
-   * 使用 StateEffect 更新 decorations（不重建编辑器）
-   */
   updateDecorations() {
-    if (!this.view) return;
-
     const decos = this.matches.map((m, i) => {
       const classes = i === this.selectedMatchIndex ? 'cm-match cm-match-selected' : 'cm-match';
       return Decoration.mark({
@@ -143,11 +129,12 @@ export class TextUI {
       }).range(m.index, m.index + m.length);
     });
 
-    const decorationSet = Decoration.set(decos, true);
+    this.decorations = Decoration.set(decos, true);
+    this.decorationsChanged = true;
 
-    this.view.dispatch({
-      effects: updateDecorations.of(decorationSet),
-    });
+    if (this.view) {
+      this.view.requestMeasure();
+    }
   }
 
   updateResult() {
