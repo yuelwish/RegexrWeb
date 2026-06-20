@@ -1,5 +1,6 @@
-import { EditorView, basicSetup, Decoration } from 'codemirror';
+import { EditorView, basicSetup } from 'codemirror';
 import { EditorState, StateField, StateEffect } from '@codemirror/state';
+import { Decoration } from '@codemirror/view';
 
 // StateEffect 用于更新 decorations
 const updateDecorationsEffect = StateEffect.define();
