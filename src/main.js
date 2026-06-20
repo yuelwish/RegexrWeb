@@ -90,10 +90,16 @@ expr.onChange(runMatch);
 text.onChange(runMatch);
 
 // 初始匹配（默认正则）
-setTimeout(() => {
+setTimeout(async () => {
   console.log('[init] text length:', text.getText().length);
-  runMatch();
-  console.log('[init] runMatch called');
+  const pattern = expr.getPattern();
+  const flags = expr.getFlagsString();
+  const body = text.getText();
+  console.log('[init] pattern:', pattern, 'flags:', flags);
+  const result = await solveRegex(pattern, flags, body);
+  console.log('[init] result:', result.matches.length, 'matches');
+  text.setMatches(result.matches);
+  tools.setMatches(result.matches, body);
 }, 100);
 
 // 替换预览回调
