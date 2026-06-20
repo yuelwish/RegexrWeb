@@ -236,10 +236,14 @@ export class ToolsUI {
     section.classList.toggle('minimized');
     const isMinimized = section.classList.contains('minimized');
 
-    // 最小化时，内容区域放大
+    // 最小化时，内容区域放大，结果区域缩小
     const textRoot = document.getElementById('textRoot');
+    const toolsRoot = document.getElementById('toolsRoot');
     if (textRoot) {
       textRoot.style.flex = isMinimized ? '1 1 0%' : '0 0 50%';
+    }
+    if (toolsRoot) {
+      toolsRoot.style.flex = isMinimized ? '0 0 38px' : '1 1 0%';
     }
 
     // 切换箭头方向
