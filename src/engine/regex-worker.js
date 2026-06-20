@@ -82,7 +82,7 @@ export function solveBuffer(buffer, pattern, flags) {
 }
 
 // Worker 环境时才 expose（Node 测试环境时不执行）
-if (typeof self !== 'undefined' && typeof window === 'undefined' && typeof process === 'undefined') {
+if (typeof importScripts === 'function' || (typeof self !== 'undefined' && typeof window === 'undefined' && typeof process === 'undefined')) {
   import('comlink').then(({ expose }) => {
     expose({ solve, solveBuffer });
   });

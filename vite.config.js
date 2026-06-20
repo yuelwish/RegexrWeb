@@ -11,7 +11,6 @@ export default defineConfig({
             'codemirror',
             '@codemirror/view',
             '@codemirror/state',
-            '@codemirror/lang-javascript',
           ],
         },
       },

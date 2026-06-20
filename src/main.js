@@ -21,10 +21,6 @@ const expr = new ExpressionUI(document.getElementById('expressionRoot'));
 const text = new TextUI(document.getElementById('textRoot'));
 const tools = new ToolsUI(document.getElementById('toolsRoot'));
 
-// 移除 text.js 内创建的多余 resize-handle（已在 doc 层级创建）
-const innerHandle = document.getElementById('textRoot').querySelector('.resize-handle');
-if (innerHandle) innerHandle.remove();
-
 // 拖拽调整 text/tools 高度比例
 const resizeHandle = document.getElementById('resizeHandle');
 let isDragging = false;
