@@ -50,7 +50,7 @@ export class ToolsUI {
         flex: 0 0 auto;
       }
       .section.tools .segcontrol {
-        display: flex; gap: 2px; list-style: none; flex: 1; margin-left: 16px;
+        display: flex; gap: 2px; list-style: none; margin-left: auto;
       }
       .section.tools .minimize-btn {
         padding: 4px 8px; background: var(--bg-elev);
