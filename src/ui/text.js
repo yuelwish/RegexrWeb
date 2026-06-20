@@ -1,8 +1,23 @@
-import { EditorView, basicSetup } from 'codemirror';
-import { EditorState } from '@codemirror/state';
-import { Decoration, ViewPlugin, ViewUpdate } from '@codemirror/view';
+import { EditorView, basicSetup, Decoration } from 'codemirror';
+import { EditorState, StateField, StateEffect } from '@codemirror/state';
 
-const SAMPLE_TEXT = `RegExr was created by gskinner.com.
+// StateEffect 用于更新 decorations
+const updateDecorationsEffect = StateEffect.define();
+
+// StateField 存储当前 decorations
+const decorationField = StateField.define({
+  create() {
+    return Decoration.none;
+  },
+  update(value, tr) {
+    for (const effect of tr.effects) {
+      if (effect.is(updateDecorationsEffect)) {
+        return effect.value;
+      }
+    }
+    return value;
+  },
+});
 
 Edit the Expression & Text to see matches. Roll over matches or the expression for details. PCRE & JavaScript flavors of RegEx are supported. Validate your expression with Tests mode.
 
@@ -43,27 +58,13 @@ export class TextUI {
   mountEditor() {
     const self = this;
 
-    const matchHighlighter = ViewPlugin.define(
-      (view) => ({
-        decorations: self.decorations,
-        update(update) {
-          if (update.docChanged || self.decorationsChanged) {
-            this.decorations = self.decorations;
-            self.decorationsChanged = false;
-          }
-        },
-      }),
-      {
-        decorations: (v) => v.decorations,
-      }
-    );
-
     this.view = new EditorView({
       state: EditorState.create({
         doc: SAMPLE_TEXT,
         extensions: [
           basicSetup,
-          matchHighlighter,
+          decorationField,
+          EditorView.decorations.from(decorationField),
           EditorView.updateListener.of((update) => {
             if (update.docChanged) {
               this.emit();
@@ -129,11 +130,12 @@ export class TextUI {
       }).range(m.index, m.index + m.length);
     });
 
-    this.decorations = Decoration.set(decos, true);
-    this.decorationsChanged = true;
+    const decorationSet = Decoration.set(decos, true);
 
     if (this.view) {
-      this.view.requestMeasure();
+      this.view.dispatch({
+        effects: updateDecorationsEffect.of(decorationSet),
+      });
     }
   }
 
