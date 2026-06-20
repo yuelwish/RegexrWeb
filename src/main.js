@@ -88,7 +88,14 @@ expr.onChange(runMatch);
 text.onChange(runMatch);
 
 // 初始匹配（默认正则）
-setTimeout(() => runMatch(), 100);
+setTimeout(async () => {
+  const pattern = expr.getPattern();
+  const flags = expr.getFlagsString();
+  const body = text.getText();
+  const result = await solveRegex(pattern, flags, body);
+  text.setMatches(result.matches);
+  tools.setMatches(result.matches, body);
+}, 100);
 
 // 替换预览回调
 tools.setReplacePreview((template, matches, sourceText) => {
