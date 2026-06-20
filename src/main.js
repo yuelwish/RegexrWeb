@@ -111,6 +111,5 @@ tools.setReplacePreview((template, matches, sourceText) => {
 
 // 点击 Text 区高亮 → 切换 Match 详情
 text.setOnMatchClick((index) => {
-  text.setSelectedMatch(index);
   tools.selectMatch(index);
 });
