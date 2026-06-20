@@ -87,6 +87,9 @@ const runMatch = debounce(async () => {
 expr.onChange(runMatch);
 text.onChange(runMatch);
 
+// 初始匹配（默认正则）
+runMatch();
+
 // 替换预览回调
 tools.setReplacePreview((template, matches, sourceText) => {
   let result = sourceText || text.getText();
