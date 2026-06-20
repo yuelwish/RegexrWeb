@@ -6,10 +6,12 @@ export function debounce(fn, delay) {
   let timer = null;
   const debounced = function (...args) {
     if (timer !== null) clearTimeout(timer);
-    timer = setTimeout(() => {
-      timer = null;
-      fn.apply(this, args);
-    }, delay);
+    return new Promise((resolve) => {
+      timer = setTimeout(() => {
+        timer = null;
+        resolve(fn.apply(this, args));
+      }, delay);
+    });
   };
   debounced.cancel = () => {
     if (timer !== null) {

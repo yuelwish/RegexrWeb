@@ -93,6 +93,7 @@ text.onChange(runMatch);
 setTimeout(() => {
   console.log('[init] text length:', text.getText().length);
   runMatch();
+  console.log('[init] runMatch called');
 }, 100);
 
 // 替换预览回调
