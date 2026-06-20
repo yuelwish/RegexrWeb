@@ -7,7 +7,7 @@ export class ToolsUI {
     this.activeTab = 'match';
     this.matches = [];
     this.selectedMatchIndex = 0;
-    this.extractTemplate = '$&';
+    this.extractTemplate = '$&\n';
     this.replaceTemplate = '<< $& >>';
     this.listeners = new Set();
     this.render();
@@ -221,7 +221,7 @@ export class ToolsUI {
       `;
     } else if (this.activeTab === 'extract') {
       const lines = this.matches.map((m) => applyTemplate(this.extractTemplate, { ...m, text: this._sourceText }));
-      result.textContent = lines.join('\n');
+      result.textContent = lines.join('');
     } else if (this.activeTab === 'replace') {
       // 替换全文（需要原文，由 main.js 注入）
       if (this.onReplacePreview) {
