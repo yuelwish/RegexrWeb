@@ -66,6 +66,7 @@ export class TextUI {
         extensions: [
           basicSetup,
           decorationField,
+          EditorView.decorations.of((state) => state.field(decorationField)),
           EditorView.updateListener.of((update) => {
             if (update.docChanged) {
               this.emit();
