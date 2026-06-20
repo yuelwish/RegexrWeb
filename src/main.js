@@ -67,7 +67,6 @@ const runMatch = debounce(async () => {
   const pattern = expr.getPattern();
   const flags = expr.getFlagsString();
   const body = text.getText();
-  console.log('[runMatch] pattern:', pattern, 'flags:', flags, 'body:', body.length);
 
   if (!pattern) {
     expr.setError(null);
@@ -76,7 +75,6 @@ const runMatch = debounce(async () => {
   }
 
   const result = await solveRegex(pattern, flags, body);
-  console.log('[runMatch] result matches:', result.matches.length, 'error:', result.error);
   if (result.error && !result.error.warning) {
     expr.setError(result.error.message);
   } else {
@@ -90,17 +88,7 @@ expr.onChange(runMatch);
 text.onChange(runMatch);
 
 // 初始匹配（默认正则）
-setTimeout(async () => {
-  console.log('[init] text length:', text.getText().length);
-  const pattern = expr.getPattern();
-  const flags = expr.getFlagsString();
-  const body = text.getText();
-  console.log('[init] pattern:', pattern, 'flags:', flags);
-  const result = await solveRegex(pattern, flags, body);
-  console.log('[init] result:', result.matches.length, 'matches');
-  text.setMatches(result.matches);
-  tools.setMatches(result.matches, body);
-}, 100);
+setTimeout(() => runMatch(), 100);
 
 // 替换预览回调
 tools.setReplacePreview((template, matches, sourceText) => {
