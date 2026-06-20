@@ -62,7 +62,8 @@ export class ToolsUI {
         border: 1px solid var(--border); border-radius: 4px;
         cursor: pointer; transition: all 0.15s;
         display: flex; align-items: center;
-        margin-left: 16px;
+        border-left: none;
+        border-radius: 0 4px 4px 0;
       }
       .section.tools .minimize-btn:hover {
         background: var(--bg-surface); color: var(--text);
@@ -76,7 +77,7 @@ export class ToolsUI {
         border: 1px solid var(--border); cursor: pointer; transition: all 0.15s;
       }
       .section.tools .segcontrol li:first-child { border-radius: 4px 0 0 4px; }
-      .section.tools .segcontrol li:last-child { border-radius: 0 4px 4px 0; }
+      .section.tools .segcontrol li:last-child { border-right: none; border-radius: 0; }
       .section.tools .segcontrol li:hover { color: var(--text); }
       .section.tools .segcontrol li.selected {
         background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600;
