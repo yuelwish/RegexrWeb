@@ -279,26 +279,31 @@ export class TextUI {
   openSearchBox() {
     this.searchOpen = true;
     const searchBox = this.container.querySelector('#searchBox');
-    searchBox.classList.add('visible');
     const searchInput = this.container.querySelector('#searchInput');
-    // Focus after the box becomes visible to ensure browser accepts focus
-    requestAnimationFrame(() => {
+
+    // Reset input and previous search state
+    searchInput.value = '';
+    this.searchTerm = '';
+    this.searchMatches = [];
+    this.selectedSearchIndex = -1;
+    this.clearSearchDecorations();
+    this.updateSearchCount();
+
+    searchBox.classList.add('visible');
+
+    // Focus after the transition so the browser accepts focus on a visible element
+    setTimeout(() => {
       searchInput.focus();
-    });
-    // If text is selected, fill it into the search input
-    const selection = this.view.state.selection.main;
-    if (!selection.empty) {
-      const selectedText = this.view.state.doc.sliceString(selection.from, selection.to);
-      searchInput.value = selectedText;
-      this.searchTerm = selectedText;
-      this.performSearch();
-    }
+      searchInput.select();
+    }, 160);
   }
 
   closeSearchBox() {
     this.searchOpen = false;
     const searchBox = this.container.querySelector('#searchBox');
+    const searchInput = this.container.querySelector('#searchInput');
     searchBox.classList.remove('visible');
+    searchInput.value = '';
     this.searchTerm = '';
     this.searchMatches = [];
     this.selectedSearchIndex = -1;
