@@ -113,6 +113,15 @@ export class TextUI {
     if (index < 0 || index >= this.matches.length) return;
     this.selectedMatchIndex = index;
     this.updateDecorations();
+    
+    // 滚动到匹配位置
+    const match = this.matches[index];
+    if (this.view && match) {
+      this.view.dispatch({
+        effects: EditorView.scrollIntoView(match.index, { y: 'center' })
+      });
+    }
+    
     if (this.onMatchClick) this.onMatchClick(index);
   }
 

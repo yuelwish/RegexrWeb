@@ -67,6 +67,7 @@ const runMatch = debounce(async () => {
   if (!pattern) {
     expr.setError(null);
     text.setMatches([]);
+    tools.setMatches([], body);
     return;
   }
 
@@ -84,14 +85,30 @@ expr.onChange(runMatch);
 text.onChange(runMatch);
 
 // 初始匹配（默认正则）
-requestAnimationFrame(() => {
+requestAnimationFrame(async () => {
   const pattern = expr.getPattern();
   const flags = expr.getFlagsString();
   const body = text.getText();
-  solveRegex(pattern, flags, body).then((result) => {
-    text.setMatches(result.matches);
-    tools.setMatches(result.matches, body);
-  });
+
+  if (!pattern) {
+    expr.setError(null);
+    text.setMatches([]);
+    tools.setMatches([], body);
+    return;
+  }
+
+  try {
+    const result = await solveRegex(pattern, flags, body);
+    if (result.error && !result.error.warning) {
+      expr.setError(result.error.message);
+    } else {
+      expr.setError(null);
+      text.setMatches(result.matches);
+      tools.setMatches(result.matches, body);
+    }
+  } catch (err) {
+    console.error('Initial match error:', err);
+  }
 });
 
 // 替换预览回调
@@ -109,4 +126,9 @@ tools.setReplacePreview((template, matches, sourceText) => {
 // 点击 Text 区高亮 → 切换 Match 详情
 text.setOnMatchClick((index) => {
   tools.selectMatch(index);
+});
+
+// Tools 面板导航 → 滚动 Text 到匹配位置
+tools.setOnNavigateMatch((index) => {
+  text.selectMatch(index);
 });

@@ -1,8 +1,9 @@
-node_modules/
-dist/
 .vite/
 .superpowers/
-*.log
+.codegraph
 .DS_Store
 .idea/
 docs/superpowers/
+*.log
+node_modules/
+dist/

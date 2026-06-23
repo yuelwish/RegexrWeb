@@ -9,7 +9,7 @@ export class ToolsUI {
     this.selectedMatchIndex = 0;
     this.extractTemplate = '$&\n';
     this.replaceTemplate = '<< $& >>';
-    this.listeners = new Set();
+    this.onNavigateMatch = null;
     this.render();
   }
 
@@ -180,9 +180,13 @@ export class ToolsUI {
         )
         .join('');
       details.innerHTML = `
-        <div class="match-hint"><b>Match ${this.selectedMatchIndex + 1} of ${this.matches.length}</b> · Click text area to navigate</div>
+        <div class="match-hint">
+          <button class="match-nav-btn" data-dir="-1" ${this.selectedMatchIndex <= 0 ? 'disabled' : ''}>&lsaquo;</button>
+          <b class="match-jump-link" title="点击跳转到匹配位置">Match ${this.selectedMatchIndex + 1} of ${this.matches.length}</b>
+          <button class="match-nav-btn" data-dir="1" ${this.selectedMatchIndex >= this.matches.length - 1 ? 'disabled' : ''}>&rsaquo;</button>
+        </div>
         <table>
-          <tr class="match">
+          <tr class="match match-clickable" data-match-idx="${this.selectedMatchIndex}">
             <td>Match ${this.selectedMatchIndex + 1}</td>
             <td>idx ${m.index}</td>
             <td><span class="group-1">${escapeHtml(m.full)}</span></td>
@@ -190,6 +194,35 @@ export class ToolsUI {
           ${groups}
         </table>
       `;
+      // 绑定 prev/next 按钮
+      details.querySelectorAll('.match-nav-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const dir = parseInt(btn.dataset.dir);
+          const newIdx = this.selectedMatchIndex + dir;
+          if (newIdx >= 0 && newIdx < this.matches.length) {
+            this.selectMatch(newIdx);
+            if (this.onNavigateMatch) this.onNavigateMatch(newIdx);
+          }
+        });
+      });
+      // "Match X of Y" 点击跳转
+      const jumpLink = details.querySelector('.match-jump-link');
+      if (jumpLink) {
+        jumpLink.style.cursor = 'pointer';
+        jumpLink.addEventListener('click', () => {
+          if (this.onNavigateMatch) this.onNavigateMatch(this.selectedMatchIndex);
+        });
+      }
+      // 匹配行点击跳转
+      details.querySelectorAll('tr.match-clickable').forEach((tr) => {
+        tr.addEventListener('click', () => {
+          const idx = parseInt(tr.dataset.matchIdx);
+          if (!isNaN(idx)) {
+            this.selectMatch(idx);
+            if (this.onNavigateMatch) this.onNavigateMatch(idx);
+          }
+        });
+      });
     } else if (this.activeTab === 'details') {
       // 显示所有匹配表格
       const rows = this.matches
@@ -206,7 +239,7 @@ export class ToolsUI {
             )
             .join('');
           return `
-            <tr class="match">
+            <tr class="match" data-match-idx="${i}">
               <td>Match ${i + 1}</td>
               <td>idx ${m.index}</td>
               <td><span class="group-1">${escapeHtml(m.full)}</span></td>
@@ -219,6 +252,17 @@ export class ToolsUI {
         <div class="details-desc"><b>Details</b> Lists all matches and capture groups.</div>
         <table>${rows}</table>
       `;
+      // 点击行导航到该匹配
+      details.querySelectorAll('tr.match').forEach((tr) => {
+        tr.classList.add('match-clickable');
+        tr.addEventListener('click', () => {
+          const idx = parseInt(tr.dataset.matchIdx);
+          if (!isNaN(idx)) {
+            this.selectMatch(idx);
+            if (this.onNavigateMatch) this.onNavigateMatch(idx);
+          }
+        });
+      });
     } else if (this.activeTab === 'extract') {
       const lines = this.matches.map((m) => applyTemplate(this.extractTemplate, { ...m, text: this._sourceText }));
       result.textContent = lines.join('');
@@ -242,6 +286,10 @@ export class ToolsUI {
       this.selectedMatchIndex = index;
       this.refresh();
     }
+  }
+
+  setOnNavigateMatch(fn) {
+    this.onNavigateMatch = fn;
   }
 }
 

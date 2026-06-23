@@ -1,3 +1,5 @@
+import { expose } from 'comlink';
+
 const MAX_ITER = 10000;
 const MAX_TIME_MS = 100;
 
@@ -82,8 +84,7 @@ export function solveBuffer(buffer, pattern, flags) {
 }
 
 // Worker 环境时才 expose（Node 测试环境时不执行）
-if (typeof importScripts === 'function' || (typeof self !== 'undefined' && typeof window === 'undefined' && typeof process === 'undefined')) {
-  import('comlink').then(({ expose }) => {
-    expose({ solve, solveBuffer });
-  });
+const isWorker = typeof importScripts === 'function' || (typeof self !== 'undefined' && typeof window === 'undefined' && typeof process === 'undefined');
+if (isWorker) {
+  expose({ solve, solveBuffer });
 }
