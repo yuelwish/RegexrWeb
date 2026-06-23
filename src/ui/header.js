@@ -11,14 +11,13 @@ export function renderHeader(container) {
       </div>
       <ul class="etc">
         <li>
-          <button class="theme-btn" type="button" title="切换主题" id="themeToggle">
+          <button class="theme-btn" type="button" title="Toggle theme" id="themeToggle">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z" fill="currentColor"/>
             </svg>
           </button>
         </li>
-        <li><a href="https://github.com" target="_blank" rel="noopener">GitHub</a></li>
-        <li><a href="#" id="helpLink">Help</a></li>
+        <li><a href="https://github.com/yuelwish/RegexrWeb" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
     </div>
   `;
@@ -26,10 +25,5 @@ export function renderHeader(container) {
   // 事件绑定
   document.getElementById('themeToggle').addEventListener('click', () => {
     toggleTheme();
-  });
-
-  document.getElementById('helpLink').addEventListener('click', (e) => {
-    e.preventDefault();
-    alert('快捷键：\n- Ctrl/Cmd + Z：撤销\n- Ctrl/Cmd + Shift + Z：重做\n\n输入正则后，Text 区自动高亮匹配。');
   });
 }

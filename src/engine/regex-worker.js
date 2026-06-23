@@ -33,7 +33,7 @@ export function solve(pattern, flags, text) {
         return {
           matches,
           error: {
-            message: `匹配中断（超过 ${MAX_ITER} 次迭代或 ${MAX_TIME_MS}ms）`,
+            message: `Match interrupted (exceeded ${MAX_ITER} iterations or ${MAX_TIME_MS}ms)`,
             warning: true,
           },
         };
@@ -66,7 +66,7 @@ export function solve(pattern, flags, text) {
   } catch (err) {
     return {
       matches,
-      error: { message: `执行错误: ${err.message}` },
+      error: { message: `Execution error: ${err.message}` },
     };
   }
 

@@ -1,10 +1,10 @@
 const FLAGS = [
-  { key: 'g', label: 'g', title: 'global - 匹配所有结果' },
-  { key: 'i', label: 'i', title: 'ignoreCase - 不区分大小写' },
-  { key: 'm', label: 'm', title: 'multiline - ^$ 匹配每行' },
-  { key: 's', label: 's', title: 'dotAll - . 匹配换行符' },
-  { key: 'u', label: 'u', title: 'unicode - Unicode 模式' },
-  { key: 'y', label: 'y', title: 'sticky - 粘滞匹配' },
+  { key: 'g', label: 'g', title: 'global - match all results' },
+  { key: 'i', label: 'i', title: 'ignoreCase - case insensitive' },
+  { key: 'm', label: 'm', title: 'multiline - ^$ match each line' },
+  { key: 's', label: 's', title: 'dotAll - . matches newlines' },
+  { key: 'u', label: 'u', title: 'unicode - Unicode mode' },
+  { key: 'y', label: 'y', title: 'sticky - sticky match' },
 ];
 
 // 正则 token 着色规则
@@ -61,7 +61,7 @@ export class ExpressionUI {
             class="expression-input"
             id="expressionInput"
             type="text"
-            placeholder="输入正则表达式..."
+            placeholder="Enter regex..."
             spellcheck="false"
             autocomplete="off"
           />

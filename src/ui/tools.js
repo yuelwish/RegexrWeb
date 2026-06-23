@@ -24,7 +24,7 @@ export class ToolsUI {
             <li data-tab="replace">Replace</li>
             <li data-tab="details">Details</li>
           </ul>
-          <button class="minimize-btn" id="toolsMinimize" title="最小化/展开">
+          <button class="minimize-btn" id="toolsMinimize" title="Minimize/Expand">
             <svg class="icon" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z" fill="currentColor"/></svg>
           </button>
         </header>
@@ -180,7 +180,7 @@ export class ToolsUI {
         )
         .join('');
       details.innerHTML = `
-        <div class="match-hint"><b>Match ${this.selectedMatchIndex + 1} of ${this.matches.length}</b> · 点击 Text 区高亮切换</div>
+        <div class="match-hint"><b>Match ${this.selectedMatchIndex + 1} of ${this.matches.length}</b> · Click text area to navigate</div>
         <table>
           <tr class="match">
             <td>Match ${this.selectedMatchIndex + 1}</td>
@@ -216,7 +216,7 @@ export class ToolsUI {
         })
         .join('');
       details.innerHTML = `
-        <div class="details-desc"><b>Details</b> 列出所有匹配及捕获组。</div>
+        <div class="details-desc"><b>Details</b> Lists all matches and capture groups.</div>
         <table>${rows}</table>
       `;
     } else if (this.activeTab === 'extract') {
