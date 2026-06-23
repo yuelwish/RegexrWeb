@@ -85,16 +85,16 @@ export class TextUI {
         </header>
         <article class="section-article">
           <div class="text-editor-wrap" id="textEditorMount">
-            <div class="search-box" id="searchBox" role="search" aria-label="查找文本">
-              <input class="search-input" id="searchInput" type="text" placeholder="查找…" autocomplete="off" spellcheck="false" aria-label="搜索词" />
+            <div class="search-box" id="searchBox" role="search" aria-label="Find text">
+              <input class="search-input" id="searchInput" type="text" placeholder="Find..." autocomplete="off" spellcheck="false" aria-label="Search term" />
               <div class="search-count" id="searchCount">0/0</div>
-              <button class="search-btn" id="searchPrev" type="button" aria-label="上一个匹配" title="上一个 (Shift+Enter)">
+              <button class="search-btn" id="searchPrev" type="button" aria-label="Previous match" title="Previous (Shift+Enter)">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
               </button>
-              <button class="search-btn" id="searchNext" type="button" aria-label="下一个匹配" title="下一个 (Enter)">
+              <button class="search-btn" id="searchNext" type="button" aria-label="Next match" title="Next (Enter)">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
-              <button class="search-btn search-close" id="searchClose" type="button" aria-label="关闭搜索" title="关闭 (Escape)">
+              <button class="search-btn search-close" id="searchClose" type="button" aria-label="Close search" title="Close (Escape)">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             </div>
@@ -228,10 +228,10 @@ export class TextUI {
   // ========== 搜索框功能 ==========
 
   initKeyboardShortcuts() {
-    document.addEventListener('keydown', (e) => {
-      // Ctrl+F / Cmd+F 打开搜索框
-      if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
-        // 只在 Text 区域可见时拦截
+    // Use capture phase so we intercept Ctrl+F before CodeMirror or other elements handle it.
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'f' || e.key === 'F')) {
+        // Only intercept when the Text section is visible.
         const textSection = this.container.querySelector('.section.text');
         if (textSection && textSection.offsetParent !== null) {
           e.preventDefault();
@@ -239,7 +239,7 @@ export class TextUI {
           this.openSearchBox();
         }
       }
-    });
+    }, true);
   }
 
   initSearchBox() {
@@ -281,8 +281,11 @@ export class TextUI {
     const searchBox = this.container.querySelector('#searchBox');
     searchBox.classList.add('visible');
     const searchInput = this.container.querySelector('#searchInput');
-    searchInput.focus();
-    // 如果有选中的文本，填充到搜索框
+    // Focus after the box becomes visible to ensure browser accepts focus
+    requestAnimationFrame(() => {
+      searchInput.focus();
+    });
+    // If text is selected, fill it into the search input
     const selection = this.view.state.selection.main;
     if (!selection.empty) {
       const selectedText = this.view.state.doc.sliceString(selection.from, selection.to);
@@ -380,7 +383,7 @@ export class TextUI {
     const el = this.container.querySelector('#searchCount');
     if (!el) return;
     if (this.searchMatches.length === 0) {
-      el.textContent = this.searchTerm ? '未找到' : '0/0';
+      el.textContent = this.searchTerm ? 'Not found' : '0/0';
       el.classList.toggle('no-match', this.searchTerm.length > 0);
     } else {
       el.textContent = `${this.selectedSearchIndex + 1}/${this.searchMatches.length}`;
