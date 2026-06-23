@@ -388,7 +388,7 @@ export class TextUI {
     const el = this.container.querySelector('#searchCount');
     if (!el) return;
     if (this.searchMatches.length === 0) {
-      el.textContent = this.searchTerm ? 'Not found' : '0/0';
+      el.textContent = this.searchTerm ? '—' : '0/0';
       el.classList.toggle('no-match', this.searchTerm.length > 0);
     } else {
       el.textContent = `${this.selectedSearchIndex + 1}/${this.searchMatches.length}`;

@@ -82,6 +82,7 @@
   position: absolute; top: 6px; right: 8px; z-index: 10;
   display: flex; align-items: center; gap: 2px;
   padding: 2px 4px;
+  width: 250px;
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -89,19 +90,20 @@
   opacity: 0; visibility: hidden;
   transform: translateY(-6px);
   transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
-  min-width: 200px;
 }
 .search-box.visible {
   opacity: 1; visibility: visible; transform: translateY(0);
 }
 
 .search-input {
-  width: 100px; padding: 2px 6px;
+  flex: 1; min-width: 0; /* flex 子项收缩关键 */
+  padding: 2px 6px;
   font-family: var(--font-mono); font-size: 13px;
   color: var(--text); background: var(--bg-elev);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   outline: none; transition: border-color 0.15s;
+  overflow: hidden; text-overflow: ellipsis;
 }
 .search-input:focus {
   border-color: var(--accent);
@@ -112,8 +114,9 @@
 
 .search-count {
   font-family: var(--font-mono); font-size: 11px;
-  color: var(--text-muted); min-width: 28px; text-align: center;
-  white-space: nowrap;
+  color: var(--text-muted);
+  width: 40px; text-align: center;
+  white-space: nowrap; flex-shrink: 0;
 }
 .search-count.no-match {
   color: var(--red);
