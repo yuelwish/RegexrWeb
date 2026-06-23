@@ -19,13 +19,12 @@
 }
 
 .section.tools .minimize-btn {
-  padding: 5px 14px; font-size: 12px; font-weight: 500;
+  margin-left: 12px;
+  padding: 5px 10px; font-size: 12px; font-weight: 500;
   background: var(--bg-elev); color: var(--text-muted);
   border: 1px solid var(--border); border-radius: 4px;
   cursor: pointer; transition: all 0.15s;
-  display: flex; align-items: center;
-  border-left: none;
-  border-radius: 0 4px 4px 0;
+  display: flex; align-items: center; justify-content: center;
 }
 .section.tools .minimize-btn:hover {
   background: var(--bg-surface); color: var(--text);

@@ -23,6 +23,9 @@
   .section.tools .segcontrol li {
     padding: 4px 8px; font-size: 11px;
   }
+  .section.tools .minimize-btn {
+    margin-left: 8px; padding: 4px 8px;
+  }
   .section.tools .inputtool-row { padding: 8px 12px; }
   .section.tools .inputtool-row .label { min-width: 60px; font-size: 10px; }
   .section.tools .inputtool-input { font-size: 12px; padding: 5px 8px; }
