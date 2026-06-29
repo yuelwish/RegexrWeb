@@ -25,7 +25,7 @@ export class ToolsUI {
             <li data-tab="details">Details</li>
           </ul>
           <button class="minimize-btn" id="toolsMinimize" title="Minimize/Expand">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z" fill="currentColor"/></svg>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" fill="currentColor"/></svg>
           </button>
         </header>
         <article class="section-article" id="toolsArticle">
