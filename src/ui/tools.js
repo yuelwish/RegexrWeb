@@ -7,7 +7,7 @@ export class ToolsUI {
     this.activeTab = 'match';
     this.matches = [];
     this.selectedMatchIndex = 0;
-    this.extractTemplate = '$&\n';
+    this.extractTemplate = '$&';
     this.replaceTemplate = '<< $& >>';
     this.onNavigateMatch = null;
     this.render();
