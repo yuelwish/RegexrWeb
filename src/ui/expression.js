@@ -1,3 +1,5 @@
+import { escapeHtml } from '../utils/escape.js';
+
 const FLAGS = [
   { key: 'g', label: 'g', title: 'global - match all results' },
   { key: 'i', label: 'i', title: 'ignoreCase - case insensitive' },
@@ -204,6 +206,18 @@ export class ExpressionUI {
         matched = true;
       }
 
+      // 空格 / Tab：可见圆点（与 Text 区同款）
+      if (!matched && ch === ' ') {
+        html += `<span class="tk-char space-dot"> </span>`;
+        i++;
+        matched = true;
+      }
+      if (!matched && ch === '\t') {
+        html += `<span class="tk-char tab-dot">\t</span>`;
+        i++;
+        matched = true;
+      }
+
       // 普通字符
       if (!matched) {
         html += `<span class="tk-char">${escapeHtml(ch)}</span>`;
@@ -252,5 +266,3 @@ export class ExpressionUI {
     this.listeners.forEach((fn) => fn(data));
   }
 }
-
-import { escapeHtml } from '../utils/escape.js';

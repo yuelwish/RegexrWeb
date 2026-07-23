@@ -1,5 +1,6 @@
 import { applyTemplate } from '../engine/template-parser.js';
 import { escapeHtml } from '../utils/escape.js';
+import { bindSpaceDotOverlay, htmlWithSpaceDots } from '../utils/space-visual.js';
 
 export class ToolsUI {
   constructor(container) {
@@ -10,6 +11,7 @@ export class ToolsUI {
     this.extractTemplate = '$&\\n';
     this.replaceTemplate = '<< $& >>';
     this.onNavigateMatch = null;
+    this.syncTemplateOverlay = null;
     this.render();
   }
 
@@ -32,7 +34,10 @@ export class ToolsUI {
           <div class="inputtool" id="toolsInputTool">
             <div class="inputtool-row">
               <span class="label" id="toolsInputLabel">Template</span>
-              <input type="text" class="inputtool-input" id="toolsInputField" />
+              <div class="inputtool-field-wrap">
+                <input type="text" class="inputtool-input" id="toolsInputField" spellcheck="false" autocomplete="off" />
+                <div class="inputtool-hl" id="toolsInputHl" aria-hidden="true"></div>
+              </div>
             </div>
             <div class="inputtool-result" id="toolsResult"></div>
           </div>
@@ -50,8 +55,10 @@ export class ToolsUI {
       li.addEventListener('click', () => this.switchTab(li.dataset.tab));
     });
 
-    // 输入框事件
+    // 模板输入 + 空格圆点覆盖层
     const inputField = this.container.querySelector('#toolsInputField');
+    const inputHl = this.container.querySelector('#toolsInputHl');
+    this.syncTemplateOverlay = bindSpaceDotOverlay(inputField, inputHl, htmlWithSpaceDots);
     inputField.addEventListener('input', () => {
       if (this.activeTab === 'extract') {
         this.extractTemplate = inputField.value;
@@ -112,6 +119,7 @@ export class ToolsUI {
         label.textContent = 'Replace';
         inputField.value = this.replaceTemplate;
       }
+      if (this.syncTemplateOverlay) this.syncTemplateOverlay();
     }
     this.refresh();
   }

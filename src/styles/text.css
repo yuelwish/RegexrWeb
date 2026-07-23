@@ -212,14 +212,10 @@
 }
 
 /*
- * 不可见字符
- * 空格/Tab：CM 官方 highlightWhitespace（.cm-highlightSpace / .cm-highlightTab）
+ * 不可见字符（Text 区）
+ * 空格/Tab 须 !important 压过 CM 内置 highlightWhitespace 主题
+ * （base.css 的 .space-dot 给 Expression/Tools；CM 走下面这条）
  * 换行：纯 CSS ::after，不插入任何 DOM widget
- */
-
-/*
- * 空格：浅色柔和圆点（约 6px，opacity ~0.42）
- * 用百分比色标 + 方形 background-size，避免硬像素截断看起来像菱形
  */
 .text-editor-wrap .cm-highlightSpace {
   background-image: radial-gradient(
@@ -232,8 +228,6 @@
   background-position: center center !important;
   background-repeat: no-repeat !important;
 }
-
-/* Tab：淡色半角箭头 */
 .text-editor-wrap .cm-highlightTab {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 6h6M6 3.5 8.5 6 6 8.5' fill='none' stroke='%23565f89' stroke-opacity='0.65' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
   background-size: 0.7em 0.7em !important;
