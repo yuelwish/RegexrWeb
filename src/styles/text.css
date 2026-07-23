@@ -139,3 +139,79 @@
 .search-close {
   margin-left: 0;
 }
+
+/* Invisible chars：半角窄符号、小点、贴紧正文 */
+.invisible-marker {
+  color: var(--text-muted);
+  font-family: ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1;
+  margin: 0 !important;
+  padding: 0 !important;
+  letter-spacing: 0 !important;
+  white-space: pre;
+  pointer-events: none;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+/* 空格：半角位宽 + 圆点光学居中（对齐字身中线） */
+.invisible-marker[data-char='space'] {
+  display: inline-block;
+  width: 0.65em;
+  /* 与编辑器行高/字号对齐，便于 middle 真正落在字心 */
+  height: 1em;
+  position: relative;
+  opacity: 0.42;
+  vertical-align: text-bottom;
+  overflow: visible;
+}
+
+.invisible-marker[data-char='space']::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  /* 对齐小写字身中线（略低于字盒几何中心） */
+  top: 0.55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+}
+
+/* 制表符：半角 ASCII > */
+.invisible-marker[data-char='tab'] {
+  display: inline-block;
+  width: 0.55em;
+  text-align: center;
+  font-size: 0.65em;
+  opacity: 0.65;
+  vertical-align: 0.1em;
+}
+
+/* 换行/回车：贴行尾 */
+.invisible-marker[data-char='nl'],
+.invisible-marker[data-char='cr'] {
+  display: inline;
+  font-size: 0.7em;
+  opacity: 0.65;
+  vertical-align: 0.05em;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* CM widget 缓冲零宽，避免正文与 ↵ 被撑开 */
+.cm-line .cm-widgetBuffer {
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  overflow: hidden !important;
+  display: inline-block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  letter-spacing: -1em !important;
+}

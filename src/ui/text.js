@@ -1,6 +1,6 @@
 import { EditorView, basicSetup } from 'codemirror';
 import { EditorState, StateField, StateEffect } from '@codemirror/state';
-import { Decoration } from '@codemirror/view';
+import { Decoration, WidgetType } from '@codemirror/view';
 
 // StateEffect 用于更新 decorations
 const updateDecorationsEffect = StateEffect.define();
@@ -16,8 +16,9 @@ const decorationField = StateField.define({
         return effect.value;
       }
     }
-    return value;
+    return value.map(tr.changes);
   },
+  provide: (f) => EditorView.decorations.from(f),
 });
 
 const SAMPLE_TEXT = `RegExr was created by gskinner.com.
@@ -29,6 +30,8 @@ The side bar includes a Cheatsheet, full Reference, and Help. You can also Save 
 Explore results with the Tools below. Replace & List output custom results. Details lists capture groups. Explain describes your expression in plain English.`;
 
 // 搜索框高亮装饰（独立于正则匹配的装饰）
+const updateSearchDecorationsEffect = StateEffect.define();
+
 const searchDecorationField = StateField.define({
   create() {
     return Decoration.none;
@@ -39,17 +42,104 @@ const searchDecorationField = StateField.define({
         return effect.value;
       }
     }
-    // 文档变化时清除搜索装饰
     if (tr.docChanged) {
       return Decoration.none;
     }
     return value.map(tr.changes);
   },
+  provide: (f) => EditorView.decorations.from(f),
 });
 
-const updateSearchDecorationsEffect = StateEffect.define();
+/** 不可见字符可视化 widget（空格/制表符/换行/回车） */
+class InvisibleCharWidget extends WidgetType {
+  constructor(ch) {
+    super();
+    this.ch = ch;
+  }
 
-const searchDecoExtension = EditorView.decorations.from(searchDecorationField);
+  eq(other) {
+    return other instanceof InvisibleCharWidget && other.ch === this.ch;
+  }
+
+  toDOM() {
+    const span = document.createElement('span');
+    span.className = 'invisible-marker';
+    const kind =
+      this.ch === ' ' ? 'space' : this.ch === '\t' ? 'tab' : this.ch === '\n' ? 'nl' : 'cr';
+    span.setAttribute('data-char', kind);
+    // 空格用 CSS 小圆点（半角窄）；其余用半角/窄 Unicode
+    if (kind === 'space') {
+      span.textContent = '';
+    } else if (kind === 'tab') {
+      span.textContent = '>'; // 半角 ASCII，避免全角箭头占宽
+    } else if (kind === 'nl') {
+      span.textContent = '\u21b5'; // ↵
+    } else {
+      span.textContent = '\u240d'; // ␍
+    }
+    span.setAttribute('aria-hidden', 'true');
+    return span;
+  }
+
+  ignoreEvent() {
+    return true;
+  }
+}
+
+function buildInvisibleDecorations(doc) {
+  const decos = [];
+  const text = doc.toString();
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+
+    if (ch === ' ') {
+      // 行尾空格（紧跟换行）不显示 marker
+      const next = text[i + 1];
+      if (next === '\n' || next === '\r') continue;
+      decos.push(
+        Decoration.replace({
+          widget: new InvisibleCharWidget(ch),
+        }).range(i, i + 1)
+      );
+      continue;
+    }
+
+    if (ch === '\t') {
+      decos.push(
+        Decoration.replace({
+          widget: new InvisibleCharWidget(ch),
+        }).range(i, i + 1)
+      );
+      continue;
+    }
+
+    // side: -1 → widget 在换行符之前，显示在当前行尾
+    if (ch === '\n' || ch === '\r') {
+      decos.push(
+        Decoration.widget({
+          widget: new InvisibleCharWidget(ch),
+          side: -1,
+        }).range(i)
+      );
+    }
+  }
+
+  return Decoration.set(decos, true);
+}
+
+const invisibleCharsField = StateField.define({
+  create(state) {
+    return buildInvisibleDecorations(state.doc);
+  },
+  update(value, tr) {
+    if (tr.docChanged) {
+      return buildInvisibleDecorations(tr.state.doc);
+    }
+    return value;
+  },
+  provide: (f) => EditorView.decorations.from(f),
+});
 
 export class TextUI {
   constructor(container) {
@@ -113,13 +203,11 @@ export class TextUI {
         extensions: [
           basicSetup,
           decorationField,
-          EditorView.decorations.from(decorationField),
           searchDecorationField,
-          searchDecoExtension,
+          invisibleCharsField,
           EditorView.updateListener.of((update) => {
             if (update.docChanged) {
               this.emit();
-              // 文档变化时重新搜索
               if (this.searchOpen && this.searchTerm) {
                 this.performSearch();
               }
