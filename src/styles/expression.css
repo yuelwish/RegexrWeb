@@ -32,7 +32,7 @@
   width: 100%; font-family: var(--font-mono); font-size: 15px; font-weight: 400;
   background: transparent; color: transparent; border: none;
   outline: none; padding: 4px 4px;
-  caret-color: var(--text);
+  caret-color: var(--cursor);
 }
 .expression-input::placeholder { color: var(--text-faint); }
 

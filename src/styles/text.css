@@ -44,37 +44,108 @@
 .text-editor-wrap .cm-content {
   font-family: var(--font-mono); font-size: 15px; color: var(--text-dim);
   line-height: 1.6;
+  caret-color: var(--cursor);
+}
+/*
+ * 光标：与行盒/选区同高（line-height 1.6 × 15px = 24px）
+ * CM 默认按 textHeight≈20px 画 caret；有选区时选区被扩到 24px 会显得 caret 更矮
+ */
+.text-editor-wrap .cm-cursor,
+.text-editor-wrap .cm-dropCursor {
+  border-left: 2px solid var(--cursor) !important;
+  margin-left: -1px;
+  height: 24px !important;
+  margin-top: -2px !important; /* (24-20)/2：与选区 box-shadow 扩展对齐 */
+}
+/*
+ * 选区：CM 按 textHeight≈20px 画矩形；用 box-shadow 上下各 +2px 贴满 24px 行盒
+ * 禁止 height:!important（会压扁多行选区中间块）
+ * 选区半透明，让下层空格圆点仍能透出
+ */
+.text-editor-wrap .cm-selectionBackground,
+.text-editor-wrap .cm-content ::selection {
+  background: var(--selection) !important;
+}
+.text-editor-wrap .cm-focused .cm-selectionBackground {
+  background: var(--selection-focused) !important;
+}
+.text-editor-wrap .cm-content ::selection {
+  color: var(--text);
+}
+.text-editor-wrap .cm-selectionLayer .cm-selectionBackground {
+  border-radius: 0 !important;
+  box-shadow:
+    0 -2px 0 0 var(--selection),
+    0 2px 0 0 var(--selection);
+}
+.text-editor-wrap .cm-focused .cm-selectionLayer .cm-selectionBackground {
+  box-shadow:
+    0 -2px 0 0 var(--selection-focused),
+    0 2px 0 0 var(--selection-focused);
 }
 .text-editor-wrap .cm-gutters {
   background: var(--bg-elev); color: var(--text-faint);
   border-right: 1px solid var(--border);
 }
 .text-editor-wrap .cm-activeLineGutter { background: var(--bg-surface); }
-.text-editor-wrap .cm-activeLine { background: rgba(122, 162, 247, 0.05); }
+.text-editor-wrap .cm-activeLine { background: rgba(122, 162, 247, 0.07); }
+/*
+ * 匹配 / 搜索：零 padding/margin（避免撑大 getClientRects → 选区错位）
+ * 用 box-shadow 上下各 +2px，视觉贴满 24px 行盒
+ */
 .text-editor-wrap .cm-match {
-  background: rgba(122, 162, 247, 0.15); color: var(--accent);
-  border-radius: 3px; padding: 1px 0; cursor: pointer;
-  transition: background 0.15s;
+  background-color: rgba(122, 162, 247, 0.22);
+  color: var(--accent);
+  border-radius: 0;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  outline: none !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  box-shadow:
+    0 -2px 0 0 rgba(122, 162, 247, 0.22),
+    0 2px 0 0 rgba(122, 162, 247, 0.22);
+  cursor: pointer;
+  transition: background-color 0.15s, box-shadow 0.15s;
 }
 .text-editor-wrap .cm-match:hover {
-  background: rgba(122, 162, 247, 0.25);
+  background-color: rgba(122, 162, 247, 0.32);
+  box-shadow:
+    0 -2px 0 0 rgba(122, 162, 247, 0.32),
+    0 2px 0 0 rgba(122, 162, 247, 0.32);
 }
 .text-editor-wrap .cm-match-selected {
-  background: rgba(224, 175, 104, 0.25); color: var(--text);
-  border-radius: 3px;
-  box-shadow: inset 0 0 0 1px rgba(224, 175, 104, 0.5);
+  background-color: rgba(224, 175, 104, 0.32);
+  color: var(--text);
+  box-shadow:
+    0 -2px 0 0 rgba(224, 175, 104, 0.32),
+    0 2px 0 0 rgba(224, 175, 104, 0.32),
+    inset 0 -2px 0 0 rgba(224, 175, 104, 0.85);
 }
 
-/* 搜索框高亮 */
 .text-editor-wrap .cm-search-match {
-  background: rgba(122, 162, 247, 0.18); color: inherit;
-  border-radius: 2px; padding: 1px 0;
-  transition: background 0.12s;
+  background-color: rgba(122, 162, 247, 0.2);
+  color: inherit;
+  border-radius: 0;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  outline: none !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  box-shadow:
+    0 -2px 0 0 rgba(122, 162, 247, 0.2),
+    0 2px 0 0 rgba(122, 162, 247, 0.2);
+  transition: background-color 0.12s, box-shadow 0.12s;
 }
 .text-editor-wrap .cm-search-match-selected {
-  background: rgba(224, 175, 104, 0.3); color: var(--text);
-  border-radius: 2px;
-  box-shadow: inset 0 0 0 1px rgba(224, 175, 104, 0.45);
+  background-color: rgba(224, 175, 104, 0.32);
+  color: var(--text);
+  box-shadow:
+    0 -2px 0 0 rgba(224, 175, 104, 0.32),
+    0 2px 0 0 rgba(224, 175, 104, 0.32),
+    inset 0 -2px 0 0 rgba(224, 175, 104, 0.85);
 }
 
 /* Search box */
@@ -140,78 +211,59 @@
   margin-left: 0;
 }
 
-/* Invisible chars：半角窄符号、小点、贴紧正文 */
-.invisible-marker {
-  color: var(--text-muted);
-  font-family: ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
-  font-weight: 400;
-  font-style: normal;
+/*
+ * 不可见字符
+ * 空格/Tab：CM 官方 highlightWhitespace（.cm-highlightSpace / .cm-highlightTab）
+ * 换行：纯 CSS ::after，不插入任何 DOM widget
+ */
+
+/*
+ * 空格：浅色柔和圆点（约 6px，opacity ~0.42）
+ * 用百分比色标 + 方形 background-size，避免硬像素截断看起来像菱形
+ */
+.text-editor-wrap .cm-highlightSpace {
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    color-mix(in srgb, var(--text-muted) 42%, transparent) 0%,
+    color-mix(in srgb, var(--text-muted) 42%, transparent) 28%,
+    transparent 32%
+  ) !important;
+  background-size: 0.85em 0.85em !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Tab：淡色半角箭头 */
+.text-editor-wrap .cm-highlightTab {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 6h6M6 3.5 8.5 6 6 8.5' fill='none' stroke='%23565f89' stroke-opacity='0.65' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  background-size: 0.7em 0.7em !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+/*
+ * 换行符：绝对定位画在行尾，不占布局宽度
+ * （inline ::after 会撑大 line box / 干扰人眼对「行尾空白」的判断）
+ */
+.text-editor-wrap .cm-line:not(:last-child) {
+  position: relative;
+}
+.text-editor-wrap .cm-line:not(:last-child)::after {
+  content: '\21b5'; /* ↵ */
+  position: absolute;
+  right: 0.15em;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.7em;
   line-height: 1;
-  margin: 0 !important;
-  padding: 0 !important;
-  letter-spacing: 0 !important;
-  white-space: pre;
+  color: var(--text-muted);
+  opacity: 0.55;
   pointer-events: none;
   user-select: none;
-  box-sizing: border-box;
+  font-family: ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
 }
 
-/* 空格：半角位宽 + 圆点光学居中（对齐字身中线） */
-.invisible-marker[data-char='space'] {
-  display: inline-block;
-  width: 0.65em;
-  /* 与编辑器行高/字号对齐，便于 middle 真正落在字心 */
-  height: 1em;
-  position: relative;
-  opacity: 0.42;
-  vertical-align: text-bottom;
-  overflow: visible;
-}
-
-.invisible-marker[data-char='space']::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  /* 对齐小写字身中线（略低于字盒几何中心） */
-  top: 0.55em;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: currentColor;
-  transform: translate(-50%, -50%);
-}
-
-/* 制表符：半角 ASCII > */
-.invisible-marker[data-char='tab'] {
-  display: inline-block;
-  width: 0.55em;
-  text-align: center;
-  font-size: 0.65em;
-  opacity: 0.65;
-  vertical-align: 0.1em;
-}
-
-/* 换行/回车：贴行尾 */
-.invisible-marker[data-char='nl'],
-.invisible-marker[data-char='cr'] {
-  display: inline;
-  font-size: 0.7em;
-  opacity: 0.65;
-  vertical-align: 0.05em;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* CM widget 缓冲零宽，避免正文与 ↵ 被撑开 */
-.cm-line .cm-widgetBuffer {
-  width: 0 !important;
-  min-width: 0 !important;
-  max-width: 0 !important;
-  font-size: 0 !important;
-  line-height: 0 !important;
-  overflow: hidden !important;
-  display: inline-block !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  letter-spacing: -1em !important;
+/* 兜底：若别处又启用了 selectionMatch，空格上不要显绿底（避免再被当成选区） */
+.text-editor-wrap .cm-highlightSpace.cm-selectionMatch {
+  background-color: transparent !important;
 }

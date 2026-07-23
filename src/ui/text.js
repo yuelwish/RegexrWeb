@@ -1,6 +1,57 @@
-import { EditorView, basicSetup } from 'codemirror';
 import { EditorState, StateField, StateEffect } from '@codemirror/state';
-import { Decoration, WidgetType } from '@codemirror/view';
+import {
+  EditorView,
+  Decoration,
+  lineNumbers,
+  highlightActiveLineGutter,
+  highlightSpecialChars,
+  drawSelection,
+  dropCursor,
+  rectangularSelection,
+  crosshairCursor,
+  highlightActiveLine,
+  keymap,
+  highlightWhitespace,
+} from '@codemirror/view';
+import { history, defaultKeymap, historyKeymap } from '@codemirror/commands';
+import {
+  foldGutter,
+  indentOnInput,
+  syntaxHighlighting,
+  defaultHighlightStyle,
+  bracketMatching,
+  foldKeymap,
+} from '@codemirror/language';
+import { searchKeymap } from '@codemirror/search';
+
+/**
+ * 自建 setup ≈ basicSetup，但：
+ * - 不装 highlightSelectionMatches（默认 minSelectionLength=1，
+ *   选中空格会把全文所有空格涂成 .cm-selectionMatch 绿底 = 幽灵选区）
+ * - 不装 autocomplete/lint（本项目未直接依赖）
+ */
+const editorSetup = [
+  lineNumbers(),
+  highlightActiveLineGutter(),
+  highlightSpecialChars(),
+  history(),
+  foldGutter(),
+  drawSelection(),
+  dropCursor(),
+  EditorState.allowMultipleSelections.of(true),
+  indentOnInput(),
+  syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+  bracketMatching(),
+  rectangularSelection(),
+  crosshairCursor(),
+  highlightActiveLine(),
+  keymap.of([
+    ...defaultKeymap,
+    ...searchKeymap,
+    ...historyKeymap,
+    ...foldKeymap,
+  ]),
+];
 
 // StateEffect 用于更新 decorations
 const updateDecorationsEffect = StateEffect.define();
@@ -50,96 +101,12 @@ const searchDecorationField = StateField.define({
   provide: (f) => EditorView.decorations.from(f),
 });
 
-/** 不可见字符可视化 widget（空格/制表符/换行/回车） */
-class InvisibleCharWidget extends WidgetType {
-  constructor(ch) {
-    super();
-    this.ch = ch;
-  }
-
-  eq(other) {
-    return other instanceof InvisibleCharWidget && other.ch === this.ch;
-  }
-
-  toDOM() {
-    const span = document.createElement('span');
-    span.className = 'invisible-marker';
-    const kind =
-      this.ch === ' ' ? 'space' : this.ch === '\t' ? 'tab' : this.ch === '\n' ? 'nl' : 'cr';
-    span.setAttribute('data-char', kind);
-    // 空格用 CSS 小圆点（半角窄）；其余用半角/窄 Unicode
-    if (kind === 'space') {
-      span.textContent = '';
-    } else if (kind === 'tab') {
-      span.textContent = '>'; // 半角 ASCII，避免全角箭头占宽
-    } else if (kind === 'nl') {
-      span.textContent = '\u21b5'; // ↵
-    } else {
-      span.textContent = '\u240d'; // ␍
-    }
-    span.setAttribute('aria-hidden', 'true');
-    return span;
-  }
-
-  ignoreEvent() {
-    return true;
-  }
-}
-
-function buildInvisibleDecorations(doc) {
-  const decos = [];
-  const text = doc.toString();
-
-  for (let i = 0; i < text.length; i++) {
-    const ch = text[i];
-
-    if (ch === ' ') {
-      // 行尾空格（紧跟换行）不显示 marker
-      const next = text[i + 1];
-      if (next === '\n' || next === '\r') continue;
-      decos.push(
-        Decoration.replace({
-          widget: new InvisibleCharWidget(ch),
-        }).range(i, i + 1)
-      );
-      continue;
-    }
-
-    if (ch === '\t') {
-      decos.push(
-        Decoration.replace({
-          widget: new InvisibleCharWidget(ch),
-        }).range(i, i + 1)
-      );
-      continue;
-    }
-
-    // side: -1 → widget 在换行符之前，显示在当前行尾
-    if (ch === '\n' || ch === '\r') {
-      decos.push(
-        Decoration.widget({
-          widget: new InvisibleCharWidget(ch),
-          side: -1,
-        }).range(i)
-      );
-    }
-  }
-
-  return Decoration.set(decos, true);
-}
-
-const invisibleCharsField = StateField.define({
-  create(state) {
-    return buildInvisibleDecorations(state.doc);
-  },
-  update(value, tr) {
-    if (tr.docChanged) {
-      return buildInvisibleDecorations(tr.state.doc);
-    }
-    return value;
-  },
-  provide: (f) => EditorView.decorations.from(f),
-});
+/**
+ * 不可见字符（第一性，避免选区幽灵）：
+ * - 空格/Tab：官方 highlightWhitespace → mark，不改字符几何
+ * - 换行：纯 CSS .cm-line::after，零 widget / 零 replace（replace 会搞乱 coordsAtPos）
+ * - 禁止自定义 Decoration.replace / 行尾 widget
+ */
 
 export class TextUI {
   constructor(container) {
@@ -201,10 +168,10 @@ export class TextUI {
       state: EditorState.create({
         doc: SAMPLE_TEXT,
         extensions: [
-          basicSetup,
+          ...editorSetup,
+          highlightWhitespace(),
           decorationField,
           searchDecorationField,
-          invisibleCharsField,
           EditorView.updateListener.of((update) => {
             if (update.docChanged) {
               this.emit();
