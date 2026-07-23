@@ -51,12 +51,6 @@
   line-height: normal;
   box-sizing: border-box;
 }
-/* 高亮层内禁止任何会改 advance 的样式 */
-.expression-hl .space-dot,
-.expression-hl .tab-dot {
-  letter-spacing: normal;
-  display: inline;
-}
 
 .tk-meta { color: var(--orange); font-weight: 600; }
 .tk-class { color: var(--yellow); font-weight: 600; }

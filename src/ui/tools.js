@@ -1,6 +1,6 @@
 import { applyTemplate } from '../engine/template-parser.js';
 import { escapeHtml } from '../utils/escape.js';
-import { bindSpaceDotOverlay, htmlWithSpaceDots } from '../utils/space-visual.js';
+import { bindSpaceDotOverlay } from '../utils/space-visual.js';
 
 export class ToolsUI {
   constructor(container) {
@@ -11,7 +11,7 @@ export class ToolsUI {
     this.extractTemplate = '$&\\n';
     this.replaceTemplate = '<< $& >>';
     this.onNavigateMatch = null;
-    this.syncTemplateOverlay = null;
+    this.templateOverlay = null;
     this.render();
   }
 
@@ -55,17 +55,18 @@ export class ToolsUI {
       li.addEventListener('click', () => this.switchTab(li.dataset.tab));
     });
 
-    // 模板输入 + 空格圆点覆盖层
+    // 模板输入 + 空格圆点覆盖层（sync 与业务 onInput 合并为一次监听）
     const inputField = this.container.querySelector('#toolsInputField');
     const inputHl = this.container.querySelector('#toolsInputHl');
-    this.syncTemplateOverlay = bindSpaceDotOverlay(inputField, inputHl, htmlWithSpaceDots);
-    inputField.addEventListener('input', () => {
-      if (this.activeTab === 'extract') {
-        this.extractTemplate = inputField.value;
-      } else if (this.activeTab === 'replace') {
-        this.replaceTemplate = inputField.value;
-      }
-      this.refresh();
+    this.templateOverlay = bindSpaceDotOverlay(inputField, inputHl, {
+      onInput: (value) => {
+        if (this.activeTab === 'extract') {
+          this.extractTemplate = value;
+        } else if (this.activeTab === 'replace') {
+          this.replaceTemplate = value;
+        }
+        this.refresh();
+      },
     });
 
     // Ctrl+A 全选结果区域
@@ -119,7 +120,7 @@ export class ToolsUI {
         label.textContent = 'Replace';
         inputField.value = this.replaceTemplate;
       }
-      if (this.syncTemplateOverlay) this.syncTemplateOverlay();
+      if (this.templateOverlay) this.templateOverlay.sync();
     }
     this.refresh();
   }

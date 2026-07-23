@@ -28,9 +28,19 @@
    */
   --selection: rgba(122, 162, 247, 0.28);
   --selection-focused: rgba(122, 162, 247, 0.36);
-  /* 实心圆点：淡色，体积小，靠 letter-spacing 留左右气 */
+  /*
+   * 空格圆点 paint：直径须 ≪ 空格 advance，靠「圆小」留左右气
+   * 禁止 letter-spacing / 改盒宽（双层 input 与 CM 选区会漂）
+   */
   --space-marker: color-mix(in srgb, var(--text-dim) 26%, transparent);
-  --tab-marker-stroke: #a9b1d6;
+  --space-dot-gradient: radial-gradient(
+    circle at 50% 55%,
+    var(--space-marker) 0%,
+    var(--space-marker) 48%,
+    transparent 55%
+  );
+  --space-dot-size: 0.36em 0.36em;
+  --tab-marker-size: 0.55em 0.55em;
 
   --radius: 6px;
   --radius-sm: 4px;
@@ -74,7 +84,7 @@
   --selection: rgba(9, 105, 218, 0.22);
   --selection-focused: rgba(9, 105, 218, 0.3);
   --space-marker: color-mix(in srgb, var(--text-dim) 30%, transparent);
-  --tab-marker-stroke: #656d76;
+  /* gradient/size 继承 dark 定义中的 var() 引用，随 --space-marker 变 */
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);

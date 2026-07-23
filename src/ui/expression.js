@@ -1,4 +1,5 @@
 import { escapeHtml } from '../utils/escape.js';
+import { wrapInvisibleChar } from '../utils/space-visual.js';
 
 const FLAGS = [
   { key: 'g', label: 'g', title: 'global - match all results' },
@@ -206,16 +207,14 @@ export class ExpressionUI {
         matched = true;
       }
 
-      // 空格 / Tab：可见圆点（与 Text 区同款）
-      if (!matched && ch === ' ') {
-        html += `<span class="tk-char space-dot"> </span>`;
-        i++;
-        matched = true;
-      }
-      if (!matched && ch === '\t') {
-        html += `<span class="tk-char tab-dot">\t</span>`;
-        i++;
-        matched = true;
+      // 空格 / Tab：与 Tools 共用 wrapInvisibleChar（禁止改 advance）
+      if (!matched) {
+        const inv = wrapInvisibleChar(ch, 'tk-char');
+        if (inv) {
+          html += inv;
+          i++;
+          matched = true;
+        }
       }
 
       // 普通字符

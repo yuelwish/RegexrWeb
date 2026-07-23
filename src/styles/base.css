@@ -62,30 +62,27 @@ textarea {
 }
 
 /*
- * 空格/Tab 可视化（共享）：Expression 高亮层、Tools 模板
- * 小圆点 + 低不透明度，保留字间空隙
+ * 空格/Tab 可视化 paint（唯一真源：tokens --space-dot-*）
+ * .space-dot → Expression / Tools；.cm-highlightSpace 的 !important 见 text.css
+ * 禁止 letter-spacing / padding 改 advance
  */
-.space-dot,
-.cm-highlightSpace {
-  /*
-   * 实心小圆居中，不改字符进宽（禁止 letter-spacing）
-   * 双层输入（透明 input + 高亮层）必须与光标同一 advance，否则空格越多越漂
-   */
-  background-image: radial-gradient(
-    circle at 50% 55%,
-    var(--space-marker) 0%,
-    var(--space-marker) 48%,
-    transparent 55%
-  );
-  background-size: 0.36em 0.36em;
+.space-dot {
+  background-image: var(--space-dot-gradient);
+  background-size: var(--space-dot-size);
   background-position: center center;
   background-repeat: no-repeat;
 }
 
-.tab-dot,
-.cm-highlightTab {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 6h6M6 3.5 8.5 6 6 8.5' fill='none' stroke='%23a9b1d6' stroke-opacity='0.4' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-size: 0.55em 0.55em;
-  background-position: center center;
-  background-repeat: no-repeat;
+/* Tab：mask + 主题色，避免写死 stroke 色 */
+.tab-dot {
+  background-color: var(--space-marker);
+  background-image: none;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 6h6M6 3.5 8.5 6 6 8.5' fill='none' stroke='black' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 6h6M6 3.5 8.5 6 6 8.5' fill='none' stroke='black' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  -webkit-mask-size: var(--tab-marker-size);
+  mask-size: var(--tab-marker-size);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-position: center center;
 }

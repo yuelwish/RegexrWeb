@@ -71,11 +71,6 @@
   box-sizing: border-box;
   border-radius: 4px;
 }
-.section.tools .inputtool-hl .space-dot,
-.section.tools .inputtool-hl .tab-dot {
-  letter-spacing: normal;
-  display: inline;
-}
 .section.tools .inputtool-result {
   flex: 1; padding: 12px 16px; font-family: var(--font-mono);
   font-size: 15px; color: var(--text-dim); line-height: 1.7;

@@ -212,28 +212,27 @@
 }
 
 /*
- * 不可见字符（Text 区）
- * 空格/Tab 须 !important 压过 CM 内置 highlightWhitespace 主题
- * （base.css 的 .space-dot 给 Expression/Tools；CM 走下面这条）
- * 换行：纯 CSS ::after，不插入任何 DOM widget
+ * 不可见字符（Text / CM）
+ * paint 变量见 tokens；此处仅 !important 压过 CM 内置 highlightWhitespace 主题
+ * 换行：纯 CSS ::after，不插入 DOM widget
  */
 .text-editor-wrap .cm-highlightSpace {
-  /* 实心小圆居中；不改 advance（letter-spacing 会漂选区/光标） */
-  background-image: radial-gradient(
-    circle at 50% 55%,
-    var(--space-marker) 0%,
-    var(--space-marker) 48%,
-    transparent 55%
-  ) !important;
-  background-size: 0.36em 0.36em !important;
+  background-image: var(--space-dot-gradient) !important;
+  background-size: var(--space-dot-size) !important;
   background-position: center center !important;
   background-repeat: no-repeat !important;
 }
 .text-editor-wrap .cm-highlightTab {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 6h6M6 3.5 8.5 6 6 8.5' fill='none' stroke='%23a9b1d6' stroke-opacity='0.4' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
-  background-size: 0.55em 0.55em !important;
-  background-position: center center !important;
-  background-repeat: no-repeat !important;
+  background-color: var(--space-marker) !important;
+  background-image: none !important;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 6h6M6 3.5 8.5 6 6 8.5' fill='none' stroke='black' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 6h6M6 3.5 8.5 6 6 8.5' fill='none' stroke='black' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  -webkit-mask-size: var(--tab-marker-size) !important;
+  mask-size: var(--tab-marker-size) !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center center !important;
+  mask-position: center center !important;
 }
 
 /*
