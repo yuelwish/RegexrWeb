@@ -22,9 +22,15 @@
 
   /* 光标 / 选区：提高对比，避免暗底上看不清 */
   --cursor: #c0caf5;
-  /* 选区略透，空格圆点（content 层）在选中时仍能透出 */
+  /*
+   * 选区：半透明 accent，空格圆点叠在上面仍能读
+   * 圆点：小、浅、留缝 —— 过大/过实会像「单词粘在一起」
+   */
   --selection: rgba(122, 162, 247, 0.28);
   --selection-focused: rgba(122, 162, 247, 0.36);
+  /* 实心圆点：淡色，体积小，靠 letter-spacing 留左右气 */
+  --space-marker: color-mix(in srgb, var(--text-dim) 26%, transparent);
+  --tab-marker-stroke: #a9b1d6;
 
   --radius: 6px;
   --radius-sm: 4px;
@@ -67,6 +73,8 @@
   --cursor: #1f2328;
   --selection: rgba(9, 105, 218, 0.22);
   --selection-focused: rgba(9, 105, 218, 0.3);
+  --space-marker: color-mix(in srgb, var(--text-dim) 30%, transparent);
+  --tab-marker-stroke: #656d76;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);

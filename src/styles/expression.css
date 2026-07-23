@@ -40,13 +40,22 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 4px;
-  bottom: 4px;
+  top: 0;
+  bottom: 0;
   font-family: var(--font-mono); font-size: 15px; font-weight: 400;
+  /* 与 .expression-input 完全同盒，避免 flex/字重差导致进宽漂移 */
   pointer-events: none;
-  padding: 4px 4px; white-space: pre; overflow: hidden;
-  display: flex;
-  align-items: center;
+  padding: 4px 4px;
+  white-space: pre;
+  overflow: hidden;
+  line-height: normal;
+  box-sizing: border-box;
+}
+/* 高亮层内禁止任何会改 advance 的样式 */
+.expression-hl .space-dot,
+.expression-hl .tab-dot {
+  letter-spacing: normal;
+  display: inline;
 }
 
 .tk-meta { color: var(--orange); font-weight: 600; }
