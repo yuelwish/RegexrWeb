@@ -1,4 +1,5 @@
 import { applyTemplate } from '../engine/template-parser.js';
+import { htmlWithTemplateHighlight } from '../engine/template-highlight.js';
 import { escapeHtml } from '../utils/escape.js';
 import { bindSpaceDotOverlay } from '../utils/space-visual.js';
 
@@ -59,6 +60,7 @@ export class ToolsUI {
     const inputField = this.container.querySelector('#toolsInputField');
     const inputHl = this.container.querySelector('#toolsInputHl');
     this.templateOverlay = bindSpaceDotOverlay(inputField, inputHl, {
+      renderHtml: htmlWithTemplateHighlight,
       onInput: (value) => {
         if (this.activeTab === 'extract') {
           this.extractTemplate = value;

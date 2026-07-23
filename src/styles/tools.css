@@ -63,6 +63,8 @@
   left: 0; right: 0; top: 0; bottom: 0;
   font-family: var(--font-mono); font-size: 15px; font-weight: 500;
   padding: 6px 10px;
+  /* 透明边框与 input 同盒，避免 scrollWidth/光标差 2px */
+  border: 1px solid transparent;
   color: var(--text);
   pointer-events: none;
   white-space: pre;
@@ -70,6 +72,20 @@
   line-height: normal;
   box-sizing: border-box;
   border-radius: 4px;
+}
+/* 模板占位符高亮（与 applyTemplate 语法对齐，非正则词法）
+ * 字重与 input 一致（500），避免加粗改变 advance 导致光标漂 */
+.section.tools .inputtool-hl .tpl-ref {
+  color: var(--green);
+}
+.section.tools .inputtool-hl .tpl-named {
+  color: var(--cyan);
+}
+.section.tools .inputtool-hl .tpl-esc {
+  color: var(--purple);
+}
+.section.tools .inputtool-hl .tpl-text {
+  color: var(--text);
 }
 .section.tools .inputtool-result {
   flex: 1; padding: 12px 16px; font-family: var(--font-mono);

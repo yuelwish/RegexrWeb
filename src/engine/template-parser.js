@@ -10,6 +10,8 @@
  *   \n        - 换行符
  *   \t        - Tab
  *
+ * 维护：占位符集合变更时同步 template-highlight.js 与其单测（显示/执行一致）。
+ *
  * @param {string} template - 模板字符串
  * @param {{ full: string, groups: Array<{index:number,value:string}>, namedGroups: Object, text?: string }} match
  * @returns {string}
